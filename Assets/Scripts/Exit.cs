@@ -6,18 +6,25 @@ public class Exit : MonoBehaviour
 {
     public int roomX = 1;
     public int roomY = 1;
+
+    private GameManager gameManager;
     private BoardManager boardScript;
 
-    private void Awake()
+    private UI ui;
+
+    private void Start()
     {
-        boardScript = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().boardScript;
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        boardScript = gameManager.boardScript;
+        ui = gameManager.ui;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && boardScript.currentRoom.passed)
         {
             boardScript.MapRendering(roomX, roomY);
+            ui.PaintingRoom(roomX, roomY);
         }
     }
 }

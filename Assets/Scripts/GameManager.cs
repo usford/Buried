@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public BoardManager boardScript;
     public static GameManager instance = null;
-    private UI ui;
+    public UI ui;
     
 
     private int level = 1;
@@ -28,9 +28,22 @@ public class GameManager : MonoBehaviour
 
     private void Update() 
     {
+        //Рестарт игры
         if (Input.GetKeyDown(KeyCode.R))
         {
             InitGame();
+        }
+
+        //Проверка открытия комнаты
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!boardScript.currentRoom.passed)
+            {
+                ui.ShowTextRoomCompleted();
+                boardScript.currentRoom.passed = true;
+                boardScript.changeExit(boardScript.currentRoom.posX, boardScript.currentRoom.posY);
+            }
+            //boardScript.MapRendering(boardScript.currentRoom.posX, boardScript.currentRoom.posY);
         }
     }
 

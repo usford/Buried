@@ -22,17 +22,22 @@ public class BoardManager : MonoBehaviour
     {
         public int columns;
         public int rows;
+        public int posX;
+        public int posY;
         public List<Tales> tales;
         public List<Vector3> gridPositions = new List<Vector3>();
         public bool passed = false;
 
-        public Map(int _x, int _y, List<Tales> _tales, List<Vector3> _gridPositions)
+
+        public Map(int _x, int _y, List<Tales> _tales, List<Vector3> _gridPositions, int _posX, int _posY)
         {
             columns = _x;
             rows = _y;
             tales = _tales;
             gridPositions = _gridPositions;
-        }
+            posX = _posX;
+            posY = _posY;
+        }   
     }
 
 
@@ -60,8 +65,12 @@ public class BoardManager : MonoBehaviour
     public GameObject[] wallTiles;
     public GameObject[] outerWallTiles;
     public GameObject exit;
+
+    public Sprite[] exitStates;
     public GameObject player;
     public Map[,] map = new Map[100,100]; //Все комнаты на уровне
+
+    public Map currentRoom;
     private Camera mainCamera;
 
     private Transform boardHolder;
@@ -148,8 +157,9 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
+        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 6, 6);
         map[6,6] = mapObject;
+        map[6,6].passed = true;
     }
 
     //Отрисовка магазина
@@ -196,8 +206,9 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
+        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 5, 6);
         map[5,6] = mapObject;
+        map[5,6].passed = true;
     }
 
     //Отрисовка комнаты испытаний
@@ -244,8 +255,9 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
-        map[6, 5] = mapObject;
+        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 6, 5);
+        map[6,5] = mapObject;
+        map[6,5].passed = true;
     }
 
     //Отрисовка простой комнаты
@@ -291,7 +303,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
+        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), posX, posY);
         //map.Add(mapObject);
         //Debug.Log("Комната создана по координатам: " + posX + "-" + posY);
         map[posX, posY] = mapObject;
@@ -336,7 +348,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //Построение выходов
-    private void BuildExit()
+    public void BuildExit()
     {
         int posX = 0;
         int posY = 0;
@@ -427,12 +439,32 @@ public class BoardManager : MonoBehaviour
         cloneExit.GetComponent<Exit>().roomX = roomX;
         cloneExit.GetComponent<Exit>().roomY = roomY;
 
-        GameObject toInstantiate = cloneExit;
+        //GameObject toInstantiate = cloneExit;
 
-        Tales taleObject = new Tales(posX, posY, toInstantiate);
+        Tales taleObject = new Tales(posX, posY, cloneExit);
 
         map[x, y].tales.Add(taleObject);
     }
+
+    //Изменение состояние выходов
+    public void changeExit(int x, int y)
+    {
+        Transform boardTransform = GameObject.Find("Board").GetComponent<Transform>();
+        foreach (Transform child in boardHolder)
+        {
+            if (child.tag == "Exit")
+            {
+                if (map[x,y].passed == false)
+                {
+                    child.GetComponent<SpriteRenderer>().sprite = exitStates[1];
+                }else
+                {
+                    child.GetComponent<SpriteRenderer>().sprite = exitStates[0];
+                }
+            }
+        }
+    }
+
 
     //Отрисовка текущей комнаты
     public void MapRendering(int x, int y)
@@ -445,6 +477,18 @@ public class BoardManager : MonoBehaviour
 
         map[x,y].tales.ForEach((t) =>
         {
+            //Отрисовка exit
+            if (t.tale.gameObject.tag == "Exit")
+            {
+                if (map[x,y].passed == false)
+                {
+                    t.tale.GetComponent<SpriteRenderer>().sprite = exitStates[1];
+                }else
+                {
+                    t.tale.GetComponent<SpriteRenderer>().sprite = exitStates[0];
+                }
+            }
+
             GameObject instance = Instantiate(t.tale, new Vector3(t.x, t.y, 0f), Quaternion.identity) as GameObject;
 
             instance.transform.SetParent(boardHolder);
@@ -456,6 +500,8 @@ public class BoardManager : MonoBehaviour
         Vector3 vect3 = new Vector3(centreColumns, centreRows, -10);
 
         mainCamera.transform.position = vect3; //Центровка камеры
+
+        currentRoom = map[x,y];
     }
 
 
