@@ -50,18 +50,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public Map[,] GetMap
-    {
-        get
-        {
-            return map;
-        }
-        set
-        {
-
-        }
-    }
-
     public int maxColumns = 13;
     public int maxRows = 13;
     public int minColumns = 6;
@@ -161,7 +149,7 @@ public class BoardManager : MonoBehaviour
         }
 
         Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
-        map[5,5] = mapObject;
+        map[6,6] = mapObject;
     }
 
     //Отрисовка магазина
@@ -209,7 +197,7 @@ public class BoardManager : MonoBehaviour
         }
 
         Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
-        map[4,5] = mapObject;
+        map[5,6] = mapObject;
     }
 
     //Отрисовка комнаты испытаний
@@ -257,7 +245,7 @@ public class BoardManager : MonoBehaviour
         }
 
         Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows));
-        map[5, 4] = mapObject;
+        map[6, 5] = mapObject;
     }
 
     //Отрисовка простой комнаты
@@ -312,8 +300,8 @@ public class BoardManager : MonoBehaviour
     //Построение комнат
     void BoardBuilding(int countRooms)
     {
-        int x = 5;
-        int y = 5;
+        int x = 6;
+        int y = 6;
         int randomColumns;
         int randomRows;
         List<Vector2Int> vacantPlaces = new List<Vector2Int>();
@@ -388,7 +376,7 @@ public class BoardManager : MonoBehaviour
                 //    continue;
                 //}
 
-                if (map[x + 1, y] != null)
+                if (x <100 && map[x + 1, y] != null)
                 { 
                     roomX = x + 1;
                     roomY = y;
@@ -399,7 +387,7 @@ public class BoardManager : MonoBehaviour
                     CreateExit(x, y, roomX, roomY, posX, posY);
                 }
 
-                if (map[x - 1, y] != null)
+                if (x > 0 && map[x - 1, y] != null)
                 {
                     roomX = x - 1;
                     roomY = y;
@@ -409,7 +397,7 @@ public class BoardManager : MonoBehaviour
                     CreateExit(x, y, roomX, roomY, posX, posY);
                 }
 
-                if (map[x, y + 1] != null)
+                if (y < 100 && map[x, y + 1] != null)
                 {
                     roomX = x;
                     roomY = y + 1;
@@ -419,7 +407,7 @@ public class BoardManager : MonoBehaviour
                     CreateExit(x, y, roomX, roomY, posX, posY);
                 }
 
-                if (map[x, y - 1] != null)
+                if (y > 0 && map[x, y - 1] != null)
                 {
                     roomX = x;
                     roomY = y - 1;
@@ -494,12 +482,13 @@ public class BoardManager : MonoBehaviour
     //Загрузка сцены
     public void SetupScene (int level)
     {
+        map = new Map[100, 100];
         BoardSetup(9, 9);
         BoardShop(5, 5);
         BoardСhallenge(7, 7);
         BoardBuilding(7);
         BuildExit();
-        MapRendering(5, 5);
+        MapRendering(6, 6);
 
         int count = 0;
 

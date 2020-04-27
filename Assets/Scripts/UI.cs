@@ -53,7 +53,7 @@ public class UI : MonoBehaviour
         {
             for (int y = 0; y < map.GetLength(1); y++)
             {
-                if (map[x, y] != null && miniMap[x, y] != null) miniMap[x,y].gameObject.SetActive(true);
+                if (map[x, y] != null && miniMap[x, y] != null) miniMap[x,y].gameObject.SetActive(true);;
             }
         }
     }
