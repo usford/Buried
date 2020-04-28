@@ -40,12 +40,28 @@ public class BoardManager : MonoBehaviour
     }
 
     //Отрисовка комнаты
-    public void RoomRendering(int posX, int posY)
+    public void RoomRendering(int posX, int posY, int spawnX, int spawnY)
     {   
         if (currentRoom != null) currentRoom.SetActive(false);
+        
         rooms[posX, posY].SetActive(true);
 
-        Vector3 vec3 = new Vector3(rooms[posX, posY].GetComponent<Room>().spawnedX, rooms[posX, posY].GetComponent<Room>().spawnedY, 0f);
+        foreach (Transform child in rooms[posX, posY].GetComponentsInChildren<Transform>())
+        {
+            if (child.tag == "Exit")
+            {
+                if (!rooms[posX,posY].GetComponent<Room>().passed)
+                {
+                    child.GetComponent<Animator>().SetBool("passed", false);
+                }else
+                {
+                    child.GetComponent<Animator>().SetBool("passed", true);
+                    child.GetComponent<Animator>().speed = 100;
+                }
+            }
+        }
+
+        Vector3 vec3 = new Vector3(spawnX, spawnY, 0f);
         _player.transform.position = vec3;
 
         int centreColumns = (int)Mathf.Floor(rooms[posX, posY].GetComponent<Room>().columns / 2);
@@ -56,6 +72,8 @@ public class BoardManager : MonoBehaviour
         mainCamera.transform.position = vect3; //Центровка камеры
 
         currentRoom = rooms[posX, posY];
+
+        
     }
 
     //Построение комнат
@@ -104,6 +122,7 @@ public class BoardManager : MonoBehaviour
                 int centreColumns = (int)Mathf.Floor(rooms[x,y].GetComponent<Room>().columns / 2);
                 int centreRows = (int)Mathf.Floor(rooms[x, y].GetComponent<Room>().rows / 2);
 
+                //Правый выход
                 if (x < 100 && rooms[x + 1, y] != null)
                 { 
                     roomX = x + 1;
@@ -115,6 +134,7 @@ public class BoardManager : MonoBehaviour
                     RoomCreateExit(x, y, roomX, roomY, posX, posY, -90.0f, "DoorR");
                 }
 
+                //Левый выход
                 if (x > 0 && rooms[x - 1, y] != null)
                 {
                     roomX = x - 1;
@@ -125,6 +145,7 @@ public class BoardManager : MonoBehaviour
                     RoomCreateExit(x, y, roomX, roomY, posX, posY, 90.0f, "DoorL");
                 }
 
+                //Верхний выход
                 if (y < 100 && rooms[x, y + 1] != null)
                 {
                     roomX = x;
@@ -135,6 +156,7 @@ public class BoardManager : MonoBehaviour
                     RoomCreateExit(x, y, roomX, roomY, posX, posY, 0.0f, "DoorU");
                 }
 
+                //Нижний выход
                 if (y > 0 && rooms[x, y - 1] != null)
                 {
                     roomX = x;
@@ -196,11 +218,13 @@ public class BoardManager : MonoBehaviour
             {
                 if (!rooms[x,y].GetComponent<Room>().passed)
                 {
-                    child.GetComponent<SpriteRenderer>().sprite = exitStates[0];
+                    child.GetComponent<BoxCollider2D>().isTrigger = false;    
+                    child.GetComponent<Animator>().SetBool("passed", false);
                 }else
                 {
-                    child.GetComponent<SpriteRenderer>().sprite = exitStates[1];
-                    child.GetComponent<BoxCollider2D>().isTrigger = true;
+                    
+                    child.GetComponent<BoxCollider2D>().isTrigger = true;    
+                    child.GetComponent<Animator>().SetBool("passed", true); 
                 }
             }
         }
@@ -238,7 +262,7 @@ public class BoardManager : MonoBehaviour
         RoomBuild(roomChallenge, 5, 4, Color.yellow);
         RoomBuilding(7);
         RoomBuildExit();
-        RoomRendering(5, 5);
+        RoomRendering(5, 5, 4, 4);
 
         currentRoom = rooms[5, 5];
 

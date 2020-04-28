@@ -23,8 +23,47 @@ public class Exit : MonoBehaviour
     {
         if (collision.tag == "Player" && boardScript.currentRoom.GetComponent<Room>().passed)
         {
+            // Debug.Log(boardScript.currentRoom.GetComponent<Room>().posX + "::::::::::::" + boardScript.currentRoom.GetComponent<Room>().posY);
+            // Debug.Log(roomX + "!!!!!!" + roomY);
+
+            int spawnedX = 0;
+            int spawnedY = 0;
+            var dir = "";
+
+            if (boardScript.currentRoom.GetComponent<Room>().posX - roomX == 1)
+            {
+                dir = "Слева зашёл";
+            }else if (boardScript.currentRoom.GetComponent<Room>().posX - roomX == -1)
+            {
+                dir = "Справа зашёл";
+            }else if (boardScript.currentRoom.GetComponent<Room>().posY - roomY == 1)
+            {
+                dir = "Снизу зашёл";
+            }else if (boardScript.currentRoom.GetComponent<Room>().posY - roomY == -1)
+            {
+                dir = "Сверху зашёл";
+            }
+
+            if (dir == "Слева зашёл")
+            {
+                spawnedX = boardScript.rooms[roomX, roomY].GetComponent<Room>().columns - 2;
+                spawnedY = (int)Mathf.Floor(boardScript.rooms[roomX, roomY].GetComponent<Room>().rows / 2);
+            }else if (dir == "Справа зашёл")
+            {
+                spawnedX = 1;
+                spawnedY = (int)Mathf.Floor(boardScript.rooms[roomX, roomY].GetComponent<Room>().rows / 2);
+            }else if (dir == "Сверху зашёл")
+            {
+                spawnedX = (int)Mathf.Floor(boardScript.rooms[roomX, roomY].GetComponent<Room>().columns / 2);
+                spawnedY = 0;
+            }else if (dir == "Снизу зашёл")
+            {
+                spawnedX = (int)Mathf.Floor(boardScript.rooms[roomX, roomY].GetComponent<Room>().columns / 2);
+                spawnedY =boardScript.rooms[roomX, roomY].GetComponent<Room>().rows - 2;
+            }
+
             ui.PaintingRoom(boardScript.rooms, roomX, roomY, boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);
-            boardScript.RoomRendering(roomX, roomY);
+            boardScript.RoomRendering(roomX, roomY, spawnedX, spawnedY);
         }
     }
 }
