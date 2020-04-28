@@ -88,7 +88,6 @@ public class UI : MonoBehaviour
             {
                 if (rooms[x, y] != null && miniMap[x, y] != null)
                 {
-                    Debug.Log(rooms[x,y].GetComponent<Room>().color);
                     miniMap[x, y].gameObject.GetComponent<Image>().color = rooms[x,y].GetComponent<Room>().color;
                     miniMap[x,y].gameObject.SetActive(true);
                 }

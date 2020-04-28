@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         boardScript = GetComponent<BoardManager>();
         ui = GetComponent<UI>();
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         //Рестарт игры
         if (Input.GetKeyDown(KeyCode.R))
         {
-            InitGame();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         //Проверка открытия комнаты
