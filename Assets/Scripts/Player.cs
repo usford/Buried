@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float maxSpeed = 2f; //Скорость
     public float maxHp = 100.0f; //Максимальное здоровье
     public float currentHp; //Текущее здоровье
+    public float invulnerability = 1.0f; //Временная неуязвимость после получения урона
+    public bool invulnerabilityCheck = false;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Rigidbody2D rb;
@@ -15,9 +17,10 @@ public class Player : MonoBehaviour
     public GameObject spriteAttackSword;
     public float swordDamage = 20.0f;
     public float distanceAttackSword = 1.2f;
-    public float powerForce = 15.0f; //Сила отталкивания 
+    public float powerForce = 15.0f; //Сила толчка 
     public float attackDelay = 1.0f;
     private bool attackCheck = true;
+
 
     private void Awake()
     {
@@ -95,5 +98,39 @@ public class Player : MonoBehaviour
         }
 
         attackCheck = true;
+    }
+
+    //Полученный урон
+    public void Damage(float damageTaken)
+    {
+        if (invulnerabilityCheck) return;
+        invulnerabilityCheck = true;
+        currentHp -= damageTaken;
+        StartCoroutine(DamageAnimation());  
+        if (currentHp <= 0)
+        {
+            //Death();
+        }
+    }
+
+    //Анимация получения урона
+    private IEnumerator DamageAnimation()
+    {
+        GetComponent<SpriteRenderer>().color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+
+        float count = 0.0f;
+
+        while(count < invulnerability)
+        {
+                
+            yield return new WaitForSeconds(0.2f);
+            GetComponent<SpriteRenderer>().color = Color.black;
+            yield return new WaitForSeconds(0.2f);
+            GetComponent<SpriteRenderer>().color = Color.white;
+            count += 0.4f;
+        }
+
+        invulnerabilityCheck = false;
     }
 }

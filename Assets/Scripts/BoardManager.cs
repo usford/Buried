@@ -155,11 +155,11 @@ public class BoardManager : MonoBehaviour
         cloneExit.GetComponent<Exit>().roomX = roomX;
         cloneExit.GetComponent<Exit>().roomY = roomY;
 
-        if (nameDoor == "DoorU")
-        {
-            cloneExit.GetComponent<BoxCollider2D>().offset = new Vector2(cloneExit.GetComponent<BoxCollider2D>().offset.x, 0.35f);
-            cloneExit.GetComponent<BoxCollider2D>().size = new Vector2(cloneExit.GetComponent<BoxCollider2D>().size.x, 0.29f);
-        }
+        // if (nameDoor == "DoorU")
+        // {
+        //     cloneExit.GetComponent<BoxCollider2D>().offset = new Vector2(cloneExit.GetComponent<BoxCollider2D>().offset.x, 0.35f);
+        //     cloneExit.GetComponent<BoxCollider2D>().size = new Vector2(cloneExit.GetComponent<BoxCollider2D>().size.x, 0.29f);
+        // }
 
         if (!rooms[x, y].GetComponent<Room>().passed)
         {

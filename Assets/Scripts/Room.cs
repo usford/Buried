@@ -12,4 +12,15 @@ public class Room : MonoBehaviour
     public int posX;
     public int posY;
     public bool passed = false;
+
+    private void OnDisable() 
+    { 
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.tag == "Trash")
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
 }
