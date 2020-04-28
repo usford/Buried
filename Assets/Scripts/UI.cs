@@ -11,8 +11,7 @@ public class UI : MonoBehaviour
     private void Start()
     {
         //GetMiniMap();
-        textRoomCompleted = GameObject.Find("Text_Room_Completed").GetComponent<Text>();
-        textRoomCompleted.gameObject.SetActive(false);     
+        textRoomCompleted = GameObject.Find("Text_Room_Completed").GetComponent<Text>();  
     }
 
     //Пока текста о том, что комната зачищена
@@ -27,8 +26,6 @@ public class UI : MonoBehaviour
         Color color = textRoomCompleted.color;
         color.a = 0.0f;
 
-        text.gameObject.SetActive(true);
-
         while(color.a < 1.0f)
         {
             yield return new WaitForSeconds(0.05f);
@@ -37,14 +34,16 @@ public class UI : MonoBehaviour
             textRoomCompleted.color = color;
         }
 
-        yield return new WaitForSeconds(1.0f);
+        while(color.a > 0.0f)
+        {
+            yield return new WaitForSeconds(0.05f);
 
-        color.a = 0.0f;
-        text.color = color;
-        textRoomCompleted.gameObject.SetActive(false);
+            color.a -= 0.05f;
+            textRoomCompleted.color = color;
+        }
     }
 
-    public void GetMiniMap(BoardManager.Map[,] map)
+    public void GetMiniMap(GameObject[,] rooms)
     {
         PaintingAllRooms();
         int countY = 0;
@@ -75,7 +74,7 @@ public class UI : MonoBehaviour
         //Debug.Log(map);
 
         int count = 0;
-        foreach (BoardManager.Map m in map)
+        foreach (GameObject m in rooms)
         {
             if (m == null) continue;
             count++;
@@ -83,22 +82,27 @@ public class UI : MonoBehaviour
 
         //Debug.Log("Кол-во комнат: " + count);
 
-        for (int x = 0; x < map.GetLength(0); x++)
+        for (int x = 0; x < rooms.GetLength(0); x++)
         {
-            for (int y = 0; y < map.GetLength(1); y++)
+            for (int y = 0; y < rooms.GetLength(1); y++)
             {
-                if (map[x, y] != null && miniMap[x, y] != null) miniMap[x,y].gameObject.SetActive(true);;
+                if (rooms[x, y] != null && miniMap[x, y] != null)
+                {
+                    Debug.Log(rooms[x,y].GetComponent<Room>().color);
+                    miniMap[x, y].gameObject.GetComponent<Image>().color = rooms[x,y].GetComponent<Room>().color;
+                    miniMap[x,y].gameObject.SetActive(true);
+                }
             }
         }
 
-        miniMap[6,6].GetComponent<Image>().color = Color.white;
+        miniMap[5,5].GetComponent<Image>().color = Color.white;
     }
 
     //Закрашивание белым цветов текущую комнату
-    public void PaintingRoom(int posX, int posY)
+    public void PaintingRoom(GameObject[,] rooms, int currentPosX, int currentPosY, int pastPosX, int pastPosY)
     {
-        PaintingAllRooms();
-        miniMap[posX,posY].GetComponent<Image>().color = Color.white;
+        miniMap[pastPosX,pastPosY].GetComponent<Image>().color = rooms[pastPosX,pastPosY].GetComponent<Room>().color;
+        miniMap[currentPosX,currentPosY].GetComponent<Image>().color = Color.white;
     }
 
     private void PaintingAllRooms()

@@ -21,10 +21,10 @@ public class Exit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && boardScript.currentRoom.passed)
+        if (collision.tag == "Player" && boardScript.currentRoom.GetComponent<Room>().passed)
         {
-            boardScript.MapRendering(roomX, roomY);
-            ui.PaintingRoom(roomX, roomY);
+            ui.PaintingRoom(boardScript.rooms, roomX, roomY, boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);
+            boardScript.RoomRendering(roomX, roomY);
         }
     }
 }

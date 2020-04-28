@@ -6,340 +6,81 @@ using Random = UnityEngine.Random;
 public class BoardManager : MonoBehaviour
 {
     [SerializeField]
-    public class Count
-    {
-        public int minimum;
-        public int maximum;
-
-        public Count (int min, int max)
-        {
-            minimum = min;
-            maximum = max;
-        }
-    }
-
-    public class Map
-    {
-        public int columns;
-        public int rows;
-        public int posX;
-        public int posY;
-        public List<Tales> tales;
-        public List<Vector3> gridPositions = new List<Vector3>();
-        public bool passed = false;
-
-
-        public Map(int _x, int _y, List<Tales> _tales, List<Vector3> _gridPositions, int _posX, int _posY)
-        {
-            columns = _x;
-            rows = _y;
-            tales = _tales;
-            gridPositions = _gridPositions;
-            posX = _posX;
-            posY = _posY;
-        }   
-    }
-
-
-    public class Tales
-    {
-        public int x;
-        public int y;
-        public GameObject tale;
-
-        public Tales(int _x, int _y, GameObject _tale)
-        {
-            x = _x;
-            y = _y;
-            tale = _tale;
-        }
-    }
-
-    public int maxColumns = 13;
-    public int maxRows = 13;
-    public int minColumns = 6;
-    public int minRows = 6;
-
-    public Count wallCount = new Count(5, 9);
-    public GameObject[] floorTiles;
-    public GameObject[] wallTiles;
-    public GameObject[] outerWallTiles;
     public GameObject exit;
 
     public Sprite[] exitStates;
     public GameObject player;
-    public Map[,] map = new Map[100,100]; //Все комнаты на уровне
+    private GameObject _player;
+    public GameObject[,] rooms = new GameObject[100,100]; //Все комнаты
+    public GameObject[] roomsSimple;
+    public GameObject roomSpawn;
+    public GameObject roomShop;
+    public GameObject roomChallenge;
 
-    public Map currentRoom;
+    public GameObject currentRoom;
+
+    //public Map currentRoom;
     private Camera mainCamera;
 
-    private Transform boardHolder;
 
     private void Awake()
     {
         mainCamera = Camera.main;
     }
 
-
-    //Позиция каждого элемента внутри комнаты (без внешних стен)
-    List<Vector3> InitialiseList(int columns, int rows)
+    //Постройка определённой комнаты
+    private void RoomBuild(GameObject room, int posX, int posY, Color color)
     {
-        List<Vector3> gridPositions = new List<Vector3>();
-
-        for (int x = 1; x < columns - 1; x++)
-        {
-            for (int y = 1; y < rows - 1; y++)
-            {
-                gridPositions.Add(new Vector3(x, y, 0f));
-            }
-        }
-
-        return gridPositions;
+        GameObject newRoom = Instantiate(room, new Vector3(0, 0, 0f), Quaternion.identity);
+        newRoom.SetActive(false);
+        newRoom.GetComponent<Room>().color = color;
+        newRoom.GetComponent<Room>().posX = posX;
+        newRoom.GetComponent<Room>().posY = posY;
+        rooms[posX, posY] = newRoom;
     }
 
-    //Отрисовка первой комнаты
-    void BoardSetup(int columns, int rows)
-    {
-        int centreColumns = (int)Mathf.Floor(columns / 2);
-        int centreRows = (int)Mathf.Floor(rows / 2);
+    //Отрисовка комнаты
+    public void RoomRendering(int posX, int posY)
+    {   
+        if (currentRoom != null) currentRoom.SetActive(false);
+        rooms[posX, posY].SetActive(true);
 
-        List<Tales> tales = new List<Tales>();
+        Vector3 vec3 = new Vector3(rooms[posX, posY].GetComponent<Room>().spawnedX, rooms[posX, posY].GetComponent<Room>().spawnedY, 0f);
+        _player.transform.position = vec3;
 
-        for (int x = - 1; x < columns + 1; x++)
-        {
-            for (int y = -1; y < rows + 1; y++)
-            {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
+        int centreColumns = (int)Mathf.Floor(rooms[posX, posY].GetComponent<Room>().columns / 2);
+        int centreRows = (int)Mathf.Floor(rooms[posX, posY].GetComponent<Room>().rows / 2);
 
-                //Создание внешних стен
-                if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
+        Vector3 vect3 = new Vector3(centreColumns, centreRows, -10);
 
-                //Создание выходов
-                //if (x == -1 && y == centreRows || x == centreColumns && y == -1 || x == centreColumns && y == rows || x == columns && y == centreRows)
-                //{
-                //    GameObject cloneExit = Instantiate(exit, new Vector3(1000, 1000,-10f), Quaternion.identity);
-                //    if (x == - 1 && y == centreRows)
-                //    {
-                //        cloneExit.GetComponent<Exit>().roomX = 4;
-                //        cloneExit.GetComponent<Exit>().roomY = 5;
-                //    }
+        mainCamera.transform.position = vect3; //Центровка камеры
 
-                //    if (x == centreColumns && y == -1)
-                //    {
-                //        cloneExit.GetComponent<Exit>().roomX = 5;
-                //        cloneExit.GetComponent<Exit>().roomY = 4;
-                //    }
-
-                //    if (x == centreColumns && y == rows)
-                //    {
-                //        cloneExit.GetComponent<Exit>().roomX = 5;
-                //        cloneExit.GetComponent<Exit>().roomY = 6;
-                //    }
-
-                //    toInstantiate = cloneExit;
-                //}
-
-                Tales taleObject = new Tales(x, y, toInstantiate);
-
-                tales.Add(taleObject);
-
-
-                //Местоположение персонажа
-                if (x == centreColumns & y == centreRows)
-                {
-                    toInstantiate = player;
-
-                    taleObject = new Tales(centreColumns, centreRows, toInstantiate);
-
-                    tales.Add(taleObject);
-                }
-            }
-        }
-
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 6, 6);
-        map[6,6] = mapObject;
-        map[6,6].passed = true;
-    }
-
-    //Отрисовка магазина
-    void BoardShop(int columns, int rows)
-    {
-        int centreColumns = (int)Mathf.Floor(columns / 2);
-        int centreRows = (int)Mathf.Floor(rows / 2);
-        List<Tales> tales = new List<Tales>();
-
-        for (int x = -1; x < columns + 1; x++)
-        {
-            for (int y = -1; y < rows + 1; y++)
-            {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-
-                //Создание внешних стен
-                if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
-
-                //Создание выхода
-                //if (x == columns && y == centreRows)
-                //{
-                //    GameObject cloneExit = Instantiate(exit, new Vector3(1000, 1000, -10f), Quaternion.identity);
-                //    cloneExit.GetComponent<Exit>().roomX = 5;
-                //    cloneExit.GetComponent<Exit>().roomY = 5;
-
-                //    toInstantiate = cloneExit;
-                //}
-
-                Tales taleObject = new Tales(x, y, toInstantiate);
-
-                tales.Add(taleObject);
-
-
-                //Местоположение персонажа
-                if (x == (columns - 1) & y == centreRows)
-                {
-                    toInstantiate = player;
-
-                    taleObject = new Tales(x, y, toInstantiate);
-
-                    tales.Add(taleObject);
-                }
-            }
-        }
-
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 5, 6);
-        map[5,6] = mapObject;
-        map[5,6].passed = true;
-    }
-
-    //Отрисовка комнаты испытаний
-    void BoardСhallenge(int columns, int rows)
-    {
-        int centreColumns = (int)Mathf.Floor(columns / 2);
-        int centreRows = (int)Mathf.Floor(rows / 2);
-        List<Tales> tales = new List<Tales>();
-
-        for (int x = -1; x < columns + 1; x++)
-        {
-            for (int y = -1; y < rows + 1; y++)
-            {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-
-                //Создание внешних стен
-                if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
-
-                //Создание выхода
-                //if (x == centreColumns && y == rows)
-                //{
-                //    GameObject cloneExit = Instantiate(exit, new Vector3(1000, 1000, -10f), Quaternion.identity);
-                //    cloneExit.GetComponent<Exit>().roomX = 5;
-                //    cloneExit.GetComponent<Exit>().roomY = 5;
-
-                //    toInstantiate = cloneExit;
-                //}
-
-                Tales taleObject = new Tales(x, y, toInstantiate);
-
-                tales.Add(taleObject);
-
-
-                //Местоположение персонажа
-                if (x == centreColumns & y == (rows - 1))
-                {
-                    toInstantiate = player;
-
-                    taleObject = new Tales(x, y, toInstantiate);
-
-                    tales.Add(taleObject);
-                }
-            }
-        }
-
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), 6, 5);
-        map[6,5] = mapObject;
-        map[6,5].passed = true;
-    }
-
-    //Отрисовка простой комнаты
-    void BoardRoom(int columns, int rows, int posX, int posY)
-    {
-        int centreColumns = (int)Mathf.Floor(columns / 2);
-        int centreRows = (int)Mathf.Floor(rows / 2);
-        List<Tales> tales = new List<Tales>();
-
-        for (int x = -1; x < columns + 1; x++)
-        {
-            for (int y = -1; y < rows + 1; y++)
-            {
-                GameObject toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
-
-                //Создание внешних стен
-                if (x == -1 || x == columns || y == -1 || y == rows)
-                    toInstantiate = outerWallTiles[Random.Range(0, outerWallTiles.Length)];
-
-                //Создание выхода
-                //if (x == centreColumns && y == rows)
-                //{
-                //    GameObject cloneExit = Instantiate(exit, new Vector3(1000, 1000, -10f), Quaternion.identity);
-                //    //cloneExit.GetComponent<Exit>().roomId = 0;
-
-                //    toInstantiate = cloneExit;
-                //}
-
-                Tales taleObject = new Tales(x, y, toInstantiate);
-
-                tales.Add(taleObject);
-
-
-                //Местоположение персонажа
-                if (x == centreColumns & y == centreRows)
-                {
-                    toInstantiate = player;
-
-                    taleObject = new Tales(centreColumns, centreRows, toInstantiate);
-
-                    tales.Add(taleObject);
-                }
-            }
-        }
-
-        Map mapObject = new Map(columns, rows, tales, InitialiseList(columns, rows), posX, posY);
-        //map.Add(mapObject);
-        //Debug.Log("Комната создана по координатам: " + posX + "-" + posY);
-        map[posX, posY] = mapObject;
+        currentRoom = rooms[posX, posY];
     }
 
     //Построение комнат
-    void BoardBuilding(int countRooms)
+    private void RoomBuilding(int countRooms)
     {
-        int x = 6;
-        int y = 6;
-        int randomColumns;
-        int randomRows;
+        int x = 5;
+        int y = 5;
         List<Vector2Int> vacantPlaces = new List<Vector2Int>();
 
         for (int i = 0; i < countRooms; i++)
         {
-            randomColumns = Random.Range(minColumns, maxColumns);
-            if (randomColumns % 2 == 0) randomColumns++;
-
-            randomRows = Random.Range(minRows, maxRows);
-            if (randomRows % 2 == 0) randomRows++;
-
             vacantPlaces.Clear();
 
             //Debug.Log("x: " + x + "     y: " + y);
 
-            if (x < 100 && map[x + 1, y] == null) vacantPlaces.Add(new Vector2Int(x + 1, y));
-            if (x > 0 && map[x - 1, y] == null) vacantPlaces.Add(new Vector2Int(x - 1, y));
-            if (y < 100 && map[x, y + 1] == null) vacantPlaces.Add(new Vector2Int(x, y + 1));
-            if (y > 0 && map[x, y - 1] == null) vacantPlaces.Add(new Vector2Int(x, y - 1));
+            if (x < 100 && rooms[x + 1, y] == null) vacantPlaces.Add(new Vector2Int(x + 1, y));
+            if (x > 0 && rooms[x - 1, y] == null) vacantPlaces.Add(new Vector2Int(x - 1, y));
+            if (y < 100 && rooms[x, y + 1] == null) vacantPlaces.Add(new Vector2Int(x, y + 1));
+            if (y > 0 && rooms[x, y - 1] == null) vacantPlaces.Add(new Vector2Int(x, y - 1));
 
             Vector2Int position = vacantPlaces[Random.Range(0, vacantPlaces.Count)];
 
             //Debug.Log("x: " + position.x + "     y: " + position.y);
 
-            BoardRoom(randomColumns, randomRows, position.x, position.y);
+            RoomBuild(roomsSimple[Random.Range(0, roomsSimple.Length)], position.x, position.y, Color.red);
 
             x = position.x;
             y = position.y;
@@ -347,164 +88,117 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    //Построение выходов
-    public void BuildExit()
+    //Создание выходов в комнате
+    private void RoomBuildExit()
     {
         int posX = 0;
         int posY = 0;
         int roomX = 0;
         int roomY = 0;
-        for (int x = 0; x < map.GetLength(0); x++)
+        for (int x = 0; x < rooms.GetLength(0); x++)
         {
-            for (int y = 0; y < map.GetLength(1); y++)
+            for (int y = 0; y < rooms.GetLength(1); y++)
             {
-                if (map[x, y] == null) continue;
+                if (rooms[x, y] == null) continue;
 
-                int centreColumns = (int)Mathf.Floor(map[x,y].columns / 2);
-                int centreRows = (int)Mathf.Floor(map[x, y].rows / 2);
+                int centreColumns = (int)Mathf.Floor(rooms[x,y].GetComponent<Room>().columns / 2);
+                int centreRows = (int)Mathf.Floor(rooms[x, y].GetComponent<Room>().rows / 2);
 
-                //Из магазина дверь ведёт только в стартовую комнату
-                //if (x == 4 && y == 5)
-                //{
-                //    roomX = x + 1;
-                //    roomY = y;
-
-                //    posX = map[x, y].columns;
-                //    posY = centreRows;
-
-                //    CreateExit(x, y, roomX, roomY, posX, posY);
-                //    continue;
-                //}
-
-                //Из комнаты испытаний дверь ведёт только в стартовую комнату
-                //if (x == 5 && y == 4)
-                //{
-                //    roomX = x;
-                //    roomY = y + 1;
-
-                //    posX = centreColumns;
-                //    posY = map[x, y].rows;
-                //    CreateExit(x, y, roomX, roomY, posX, posY);
-                //    continue;
-                //}
-
-                if (x <100 && map[x + 1, y] != null)
+                if (x < 100 && rooms[x + 1, y] != null)
                 { 
                     roomX = x + 1;
                     roomY = y;
 
-                    posX = map[x, y].columns;
+                    posX = rooms[x, y].GetComponent<Room>().columns - 1;
                     posY = centreRows;
 
-                    CreateExit(x, y, roomX, roomY, posX, posY);
+                    RoomCreateExit(x, y, roomX, roomY, posX, posY, -90.0f, "DoorR");
                 }
 
-                if (x > 0 && map[x - 1, y] != null)
+                if (x > 0 && rooms[x - 1, y] != null)
                 {
                     roomX = x - 1;
                     roomY = y;
 
-                    posX = -1;
+                    posX = 0;
                     posY = centreRows;
-                    CreateExit(x, y, roomX, roomY, posX, posY);
+                    RoomCreateExit(x, y, roomX, roomY, posX, posY, 90.0f, "DoorL");
                 }
 
-                if (y < 100 && map[x, y + 1] != null)
+                if (y < 100 && rooms[x, y + 1] != null)
                 {
                     roomX = x;
                     roomY = y + 1;
 
                     posX = centreColumns;
-                    posY = map[x, y].rows;
-                    CreateExit(x, y, roomX, roomY, posX, posY);
+                    posY = rooms[x, y].GetComponent<Room>().rows - 1;
+                    RoomCreateExit(x, y, roomX, roomY, posX, posY, 0.0f, "DoorU");
                 }
 
-                if (y > 0 && map[x, y - 1] != null)
+                if (y > 0 && rooms[x, y - 1] != null)
                 {
                     roomX = x;
                     roomY = y - 1;
 
                     posX = centreColumns;
                     posY = -1;
-                    CreateExit(x, y, roomX, roomY, posX, posY);
+                    RoomCreateExit(x, y, roomX, roomY, posX, posY, 180.0f, "DoorD");
                 }
             }
         }
     }
 
     //Создание выхода
-    private void CreateExit(int x, int y, int roomX, int roomY, int posX, int posY)
+    private void RoomCreateExit(int x, int y, int roomX, int roomY, int posX, int posY, float rotationZ, string nameDoor)
     {
-        GameObject cloneExit = Instantiate(exit, new Vector3(1000, 1000, -10f), Quaternion.identity);
+        GameObject cloneExit = Instantiate(exit, new Vector3(posX, posY, 0f), Quaternion.identity);
         cloneExit.GetComponent<Exit>().roomX = roomX;
         cloneExit.GetComponent<Exit>().roomY = roomY;
 
+        if (!rooms[x, y].GetComponent<Room>().passed)
+        {
+             cloneExit.GetComponent<SpriteRenderer>().sprite = exitStates[0];
+             cloneExit.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+        
+
         //GameObject toInstantiate = cloneExit;
 
-        Tales taleObject = new Tales(posX, posY, cloneExit);
+        // Tales taleObject = new Tales(posX, posY, cloneExit);
 
-        map[x, y].tales.Add(taleObject);
+        // map[x, y].tales.Add(taleObject);
+
+        cloneExit.transform.Rotate(new Vector3(0,0,rotationZ));
+        
+        cloneExit.transform.parent = rooms[x, y].GetComponent<Transform>();
+        
+        foreach (Transform child in rooms[x, y].GetComponentsInChildren<Transform>())
+        {
+            if (child.gameObject.name == nameDoor)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
 
     //Изменение состояние выходов
-    public void changeExit(int x, int y)
+    public void ChangeExit(int x, int y)
     {
-        Transform boardTransform = GameObject.Find("Board").GetComponent<Transform>();
-        foreach (Transform child in boardHolder)
+        foreach (Transform child in rooms[x, y].GetComponentsInChildren<Transform>())
         {
             if (child.tag == "Exit")
             {
-                if (map[x,y].passed == false)
-                {
-                    child.GetComponent<SpriteRenderer>().sprite = exitStates[1];
-                }else
+                if (!rooms[x,y].GetComponent<Room>().passed)
                 {
                     child.GetComponent<SpriteRenderer>().sprite = exitStates[0];
-                }
-            }
-        }
-    }
-
-
-    //Отрисовка текущей комнаты
-    public void MapRendering(int x, int y)
-    {
-        if (boardHolder != null)
-        {
-            Destroy(GameObject.Find("Board"));
-        }
-        boardHolder = new GameObject("Board").transform;
-
-        map[x,y].tales.ForEach((t) =>
-        {
-            //Отрисовка exit
-            if (t.tale.gameObject.tag == "Exit")
-            {
-                if (map[x,y].passed == false)
-                {
-                    t.tale.GetComponent<SpriteRenderer>().sprite = exitStates[1];
                 }else
                 {
-                    t.tale.GetComponent<SpriteRenderer>().sprite = exitStates[0];
+                    child.GetComponent<SpriteRenderer>().sprite = exitStates[1];
+                    child.GetComponent<BoxCollider2D>().isTrigger = true;
                 }
             }
-
-            GameObject instance = Instantiate(t.tale, new Vector3(t.x, t.y, 0f), Quaternion.identity) as GameObject;
-
-            instance.transform.SetParent(boardHolder);
-        });
-
-        int centreColumns = (int)Mathf.Floor(map[x, y].columns / 2);
-        int centreRows = (int)Mathf.Floor(map[x,y].rows / 2);
-
-        Vector3 vect3 = new Vector3(centreColumns, centreRows, -10);
-
-        mainCamera.transform.position = vect3; //Центровка камеры
-
-        currentRoom = map[x,y];
+        }
     }
-
-
     //Vector3 RandomPosition()
     //{
     //    int randomIndex = Random.Range(0, gridPositions.Count);
@@ -528,19 +222,26 @@ public class BoardManager : MonoBehaviour
     //Загрузка сцены
     public void SetupScene (int level)
     {
-        map = new Map[100, 100];
-        BoardSetup(9, 9);
-        BoardShop(5, 5);
-        BoardСhallenge(7, 7);
-        BoardBuilding(7);
-        BuildExit();
-        MapRendering(6, 6);
+        rooms = new GameObject[100, 100];
+
+        if (_player != null) Destroy(_player);
+
+        _player = Instantiate(player, new Vector3(5, 5, 0f), Quaternion.identity);
+        RoomBuild(roomSpawn, 5, 5, Color.yellow);
+        RoomBuild(roomShop, 4, 5, Color.yellow);
+        RoomBuild(roomChallenge, 5, 4, Color.yellow);
+        RoomBuilding(7);
+        RoomBuildExit();
+        RoomRendering(5, 5);
+
+        currentRoom = rooms[5, 5];
+
 
         int count = 0;
 
-        foreach (Map m in map)
+        foreach (GameObject r in rooms)
         {
-            if (m == null) continue;
+            if (r == null) continue;
             count++;
         }
 

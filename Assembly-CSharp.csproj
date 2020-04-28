@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Room.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
      <None Include="Assets\Fonts\2D Roguelike\OFL.txt" />
+     <None Include="Assets\Sprites\v1.1 dungeon crawler 16x16 pixel pack\tiles\wall\obs.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity projects/Buried/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

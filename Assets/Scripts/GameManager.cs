@@ -37,19 +37,19 @@ public class GameManager : MonoBehaviour
         //Проверка открытия комнаты
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!boardScript.currentRoom.passed)
+            if (!boardScript.currentRoom.GetComponent<Room>().passed)
             {
                 ui.ShowTextRoomCompleted();
-                boardScript.currentRoom.passed = true;
-                boardScript.changeExit(boardScript.currentRoom.posX, boardScript.currentRoom.posY);
+                boardScript.currentRoom.GetComponent<Room>().passed = true;
+                boardScript.currentRoom.GetComponent<Room>().color = Color.green;
+                boardScript.ChangeExit(boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);
             }
-            //boardScript.MapRendering(boardScript.currentRoom.posX, boardScript.currentRoom.posY);
         }
     }
 
     void InitGame()
     {
         boardScript.SetupScene(level);
-        ui.GetMiniMap(boardScript.map);
+        ui.GetMiniMap(boardScript.rooms);
     }
 }
