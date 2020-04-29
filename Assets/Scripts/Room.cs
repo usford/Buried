@@ -13,6 +13,15 @@ public class Room : MonoBehaviour
     public int posY;
     public bool passed = false;
 
+    //Цель, необходимая для зачистки комнаты
+    private void RoomTarget(string type)
+    {
+        switch(type)
+        {
+            
+        }
+    }
+
     private void OnDisable() 
     { 
         foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())

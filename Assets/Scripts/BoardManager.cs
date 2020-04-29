@@ -16,12 +16,13 @@ public class BoardManager : MonoBehaviour
     public GameObject roomSpawn;
     public GameObject roomShop;
     public GameObject roomChallenge;
-
+    public GameObject chest; //Сундук с сокровищами
     public GameObject currentRoom;
+    public GameObject[] enemies; //Враги
+
 
     //public Map currentRoom;
     private Camera mainCamera;
-
 
     private void Awake()
     {
@@ -29,13 +30,46 @@ public class BoardManager : MonoBehaviour
     }
 
     //Постройка определённой комнаты
-    private void RoomBuild(GameObject room, int posX, int posY, Color color)
+    private void RoomBuild(GameObject room, int posX, int posY, Color color, bool target)
     {
+        int centreColumns = (int)Mathf.Floor(room.GetComponent<Room>().columns / 2);
+        int centreRows = (int)Mathf.Floor(room.GetComponent<Room>().rows / 2);
+
         GameObject newRoom = Instantiate(room, new Vector3(0, 0, 0f), Quaternion.identity);
         newRoom.SetActive(false);
         newRoom.GetComponent<Room>().color = color;
         newRoom.GetComponent<Room>().posX = posX;
         newRoom.GetComponent<Room>().posY = posY;
+
+        if (target)
+        {
+            float chance = 0.2f; //Шанс на сундук
+
+            float random = Random.Range(0.0f, 1.0f);
+
+            if (random <= chance)
+            {
+                GameObject newChest = Instantiate(chest, new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+                newChest.transform.SetParent(newRoom.transform);
+                newChest.AddComponent<Target>();
+                newChest.GetComponent<Target>().type = "chest";
+                newChest.GetComponent<Target>().posX = posX;
+                newChest.GetComponent<Target>().posY = posY;
+            }else
+            {
+                int count = Random.Range(1, 3);
+
+                for (int i = 0; i < count; i++)
+                {
+                    GameObject newEnemy = Instantiate(enemies[enemies.Length - 1], new Vector3(centreColumns, centreRows + i, 0.0f), Quaternion.identity);
+                    newEnemy.transform.SetParent(newRoom.transform);
+                }
+                newRoom.AddComponent<Target>().type = "enemies";
+                newRoom.GetComponent<Target>().posX = posX;
+                newRoom.GetComponent<Target>().posY = posY;
+            }
+        }
+
         rooms[posX, posY] = newRoom;
     }
 
@@ -43,8 +77,10 @@ public class BoardManager : MonoBehaviour
     public void RoomRendering(int posX, int posY, int spawnX, int spawnY)
     {   
         if (currentRoom != null) currentRoom.SetActive(false);
-        
+
         rooms[posX, posY].SetActive(true);
+
+        
 
         foreach (Transform child in rooms[posX, posY].GetComponentsInChildren<Transform>())
         {
@@ -98,7 +134,7 @@ public class BoardManager : MonoBehaviour
 
             //Debug.Log("x: " + position.x + "     y: " + position.y);
 
-            RoomBuild(roomsSimple[Random.Range(0, roomsSimple.Length)], position.x, position.y, Color.red);
+            RoomBuild(roomsSimple[Random.Range(0, roomsSimple.Length)], position.x, position.y, Color.red, true);
 
             x = position.x;
             y = position.y;
@@ -257,9 +293,9 @@ public class BoardManager : MonoBehaviour
         if (_player != null) Destroy(_player);
 
         _player = Instantiate(player, new Vector3(5, 5, 0f), Quaternion.identity);
-        RoomBuild(roomSpawn, 5, 5, Color.yellow);
-        RoomBuild(roomShop, 4, 5, Color.yellow);
-        RoomBuild(roomChallenge, 5, 4, Color.yellow);
+        RoomBuild(roomSpawn, 5, 5, Color.yellow, false);
+        RoomBuild(roomShop, 4, 5, Color.yellow, false);
+        RoomBuild(roomChallenge, 5, 4, Color.yellow, false);
         RoomBuilding(7);
         RoomBuildExit();
         RoomRendering(5, 5, 4, 4);

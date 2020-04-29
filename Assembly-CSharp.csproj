@@ -45,6 +45,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>     <Compile Include="Assets\Scripts\BoardManager.cs" />
+     <Compile Include="Assets\Scripts\Chest.cs" />
      <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemySlime\EnemySlime.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemySlime\Fart.cs" />
@@ -53,6 +54,7 @@
      <Compile Include="Assets\Scripts\Loader.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Room.cs" />
+     <Compile Include="Assets\Scripts\Target.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
      <None Include="Assets\Fonts\2D Roguelike\OFL.txt" />
      <None Include="Assets\Sprites\v1.1 dungeon crawler 16x16 pixel pack\tiles\wall\obs.txt" />

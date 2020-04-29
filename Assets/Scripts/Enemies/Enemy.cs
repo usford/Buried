@@ -13,14 +13,12 @@ public class Enemy : MonoBehaviour
 
     private void Start() 
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         currentHp = maxHp;
     }
 
     //Урон, полученный врагом
     public void Damage(float damageTaken)
     {
-        // Debug.Log(currentHp);
         // Debug.Log(damageTaken);
         currentHp -= damageTaken;
         StartCoroutine(DamageAnimation());  
@@ -41,6 +39,7 @@ public class Enemy : MonoBehaviour
     //Монстр наносит удар
     private void Hit()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Vector2 movement = player.GetComponent<Transform>().position - transform.position ;
         player.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
         player.Damage(damage); 

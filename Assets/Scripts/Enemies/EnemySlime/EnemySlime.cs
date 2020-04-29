@@ -6,12 +6,16 @@ public class EnemySlime : Enemy
 {
     private Vector3 direction;
     public GameObject fart;
+    public bool isFart = true;
 
     private void Awake() 
     {
-        direction = transform.right;
+        direction = transform.right;   
+    }
+    private void OnEnable() 
+    {
         StartCoroutine(RandomMove());
-        StartCoroutine(SpawnFart());
+        if (isFart) StartCoroutine(SpawnFart());
     }
     private void FixedUpdate() 
     {
@@ -45,13 +49,16 @@ public class EnemySlime : Enemy
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.transform == transform) continue;
-            if (hit.collider.GetComponent<SpriteRenderer>().sortingLayerName == "Wall" 
+            if (hit.collider.tag == "OuterWall" || hit.collider.tag == "Exit")
+            {
+                if (hit.collider.GetComponent<SpriteRenderer>().sortingLayerName == "Wall" 
                 || hit.collider.GetComponent<SpriteRenderer>().sortingLayerName == "Exit"
                 || hit.collider.tag == "Enemy")
-            {
-                //Debug.Log("СТЕНА СТЕНА СТЕНА");
+                {
+                    //Debug.Log("СТЕНА СТЕНА СТЕНА");
 
-                changeDir();
+                    changeDir();
+                }
             }
         }
     }
