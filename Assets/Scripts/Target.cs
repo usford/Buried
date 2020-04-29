@@ -67,20 +67,26 @@ public class Target : MonoBehaviour
         int centreColumns = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().columns / 2);
         int centreRows = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().rows / 2);
 
-        float chance = 0.5f; //Шанс на сундук
+        float chance = 0.3f; //Шанс на сундук
 
         float random = Random.Range(0.0f, 1.0f);
 
         if (random <= chance)
         {
-            GameObject newChest = Instantiate(Resources.Load<GameObject>("chest_closed_anim_f0"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+            GameObject newChest = Instantiate(Resources.Load<GameObject>("Items/Chest1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
             newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
+        }else
+        {
+            GameObject newGold = Instantiate(Resources.Load<GameObject>("Items/Gold1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+            int randomGold = Random.Range(1, 16);
+            newGold.GetComponent<Gold>().Amount += randomGold;
+            newGold.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
         }
     }
     //Выполнение цели
     private void targetCompleted()
     {
-        gameManager.ui.ShowTextRoomCompleted();
+        gameManager.ui.ShowTextRoomCompleted(true);
         gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().color = Color.green;
         gameManager.boardScript.ChangeExit(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().posX, gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().posY);
     }

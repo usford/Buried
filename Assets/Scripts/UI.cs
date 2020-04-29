@@ -6,24 +6,67 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour
 {
     public Transform[,] miniMap = new Transform[30, 30];
-    private Text textRoomCompleted;
+    private Text textRoomCompleted; //Текст о зачистки комнаты
+    private Text textAmountGold; //Текст о количестве золота
+    private GameObject health; //Здоровье персонажа (Список сердец)
+    private Text textDeath; //Текст о смерти героя
+    private Player player;
 
     private void Start()
     {
         //GetMiniMap();
-        textRoomCompleted = GameObject.Find("Text_Room_Completed").GetComponent<Text>();  
+        textRoomCompleted = GameObject.Find("Text_room_completed").GetComponent<Text>(); 
+        textAmountGold = GameObject.Find("Text_amount_gold").GetComponent<Text>();
+        health = GameObject.Find("Health");
+        textDeath = GameObject.Find("Text_death_player").GetComponent<Text>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        //Начальные значения
+        ChangeHealth(player.CurrentHp);
+    }
+
+    //Сообщение о том, что игрок мёртв
+    public void ShowTextDeath()
+    {
+        StartCoroutine(SmoothAppearance(textDeath, false));  
+    }
+
+    //Изменение хп героя
+    public void ChangeHealth(float hp)
+    {
+        Transform[] children = health.transform.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in children)
+        {
+            if (child.name == "Health") continue;
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < hp; i++)
+        {
+            GameObject heart = Instantiate(Resources.Load<GameObject>("UI/Heart"));
+            heart.transform.SetParent(health.transform);
+
+            Vector3 vec3 = new Vector3(0.5f, 0.7f);
+            heart.transform.localScale = vec3;
+        }
+    }
+    //Изменение текста с количеством золота
+    public void ChangeTextAmountGold(int amountGold)
+    {
+        textAmountGold.text = amountGold.ToString();
     }
 
     //Пока текста о том, что комната зачищена
-    public void ShowTextRoomCompleted()
+    public void ShowTextRoomCompleted(bool hideText)
     {     
-        StartCoroutine(SmoothAppearance(textRoomCompleted));   
+        StartCoroutine(SmoothAppearance(textRoomCompleted, hideText));   
     }
 
     //Плавное появление надписи
-    private IEnumerator SmoothAppearance(Text text)
+    private IEnumerator SmoothAppearance(Text text, bool hideText)
     {
-        Color color = textRoomCompleted.color;
+        Color color = text.color;
         color.a = 0.0f;
 
         while(color.a < 1.0f)
@@ -31,15 +74,17 @@ public class UI : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
 
             color.a += 0.05f;
-            textRoomCompleted.color = color;
+            text.color = color;
         }
+
+        if (!hideText) yield break;
 
         while(color.a > 0.0f)
         {
             yield return new WaitForSeconds(0.05f);
 
             color.a -= 0.05f;
-            textRoomCompleted.color = color;
+            text.color = color;
         }
     }
 

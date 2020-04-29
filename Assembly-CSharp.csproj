@@ -51,13 +51,20 @@
      <Compile Include="Assets\Scripts\Enemies\EnemySlime\Fart.cs" />
      <Compile Include="Assets\Scripts\Exit.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Gold.cs" />
      <Compile Include="Assets\Scripts\Loader.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Room.cs" />
      <Compile Include="Assets\Scripts\Target.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
+     <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font2\license.txt" />
+     <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font1\readme.txt" />
      <None Include="Assets\Fonts\2D Roguelike\OFL.txt" />
+     <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font1\license.txt" />
+     <None Include="Assets\Sprites\Craftpix treasure icons pixel art\readme.txt" />
      <None Include="Assets\Sprites\v1.1 dungeon crawler 16x16 pixel pack\tiles\wall\obs.txt" />
+     <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font2\readme.txt" />
+     <None Include="Assets\Sprites\Craftpix treasure icons pixel art\License.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Unity projects/Buried/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

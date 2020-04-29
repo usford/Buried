@@ -41,6 +41,7 @@ public class BoardManager : MonoBehaviour
         newRoom.GetComponent<Room>().posX = posX;
         newRoom.GetComponent<Room>().posY = posY;
 
+        //Создание цели для комнаты
         if (target)
         {
             float chance = 0.2f; //Шанс на сундук

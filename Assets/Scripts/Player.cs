@@ -6,8 +6,36 @@ public class Player : MonoBehaviour
 {
     //Интерфейс персонажа
     public float maxSpeed = 2f; //Скорость
-    public float maxHp = 100.0f; //Максимальное здоровье
+    public float maxHp = 3.0f; //Максимальное здоровье
     public float currentHp; //Текущее здоровье
+
+    public float CurrentHp
+    {
+        get
+        {
+            return currentHp;
+        }
+        set
+        {
+            currentHp = value;
+            ui.ChangeHealth(currentHp);
+        }
+    }
+    public int amountGold = 0; //Количество золота у игрока
+
+    public int AmountGold
+    {
+        get
+        {
+            return amountGold;
+        }
+
+        set
+        {
+            amountGold = value;
+            ui.ChangeTextAmountGold(amountGold);
+        }
+    }
     public float invulnerability = 1.0f; //Временная неуязвимость после получения урона
     public bool invulnerabilityCheck = false;
     private SpriteRenderer spriteRenderer;
@@ -20,14 +48,19 @@ public class Player : MonoBehaviour
     public float powerForce = 15.0f; //Сила толчка 
     public float attackDelay = 1.0f;
     private bool attackCheck = true;
+    private UI ui;
 
-
+    public bool noDeath = false; //Невозможность умереть
     private void Awake()
     {
         currentHp = maxHp;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start() {
+        ui = GameObject.FindGameObjectWithTag("GameManager").GetComponent<UI>();
     }
 
     private void FixedUpdate()
@@ -105,11 +138,11 @@ public class Player : MonoBehaviour
     {
         if (invulnerabilityCheck) return;
         invulnerabilityCheck = true;
-        currentHp -= damageTaken;
+        CurrentHp -= damageTaken;
         StartCoroutine(DamageAnimation());  
-        if (currentHp <= 0)
+        if (CurrentHp <= 0 && !noDeath)
         {
-            //Death();
+            Death();
         }
     }
 
@@ -132,5 +165,11 @@ public class Player : MonoBehaviour
         }
 
         invulnerabilityCheck = false;
+    }
+
+    private void Death()
+    {
+        ui.ShowTextDeath();
+        Destroy(gameObject);
     }
 }
