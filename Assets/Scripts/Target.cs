@@ -67,7 +67,7 @@ public class Target : MonoBehaviour
         int centreColumns = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().columns / 2);
         int centreRows = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().rows / 2);
 
-        float chance = 1.0f; //Шанс на сундук
+        float chance = 0.5f; //Шанс на сундук
 
         float random = Random.Range(0.0f, 1.0f);
 
