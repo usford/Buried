@@ -38,9 +38,10 @@ public class SpellIcons : MonoBehaviour
 
         while (count < coolDown)
         {
-            count += 0.1f;
-            imageCoolDown.fillAmount -= 0.1f / coolDown;
-            yield return new WaitForSeconds(0.1f);
+            
+            yield return new WaitForSeconds(0.05f);
+            count += 0.05f;
+            imageCoolDown.fillAmount -= 0.05f / coolDown;
         }
 
         imageCoolDown.gameObject.SetActive(false);

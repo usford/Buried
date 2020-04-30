@@ -49,7 +49,20 @@ public class Player : MonoBehaviour
     public float attackDelay = 1.0f;
     private bool attackCheck = true;
     private UI ui;
-    public GameObject[] spells;
+    public List<GameObject> spells;
+
+    public List<GameObject> Spells
+    {
+        get
+        {
+            return spells;
+        }
+        set
+        {
+            spells = value;
+            ui.ChangeSpells(spells);
+        }
+    }
 
     public bool noDeath = false; //Невозможность умереть
     public GameObject rotateMoution; //Таргет для способности

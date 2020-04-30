@@ -12,6 +12,7 @@ public class UI : MonoBehaviour
     private Text textDeath; //Текст о смерти героя
     private Player player;
     private GameObject spells; //Способности персонажа
+    private GameObject videoDeath; //Видео-смерть игрока
 
     private void Start()
     {
@@ -29,13 +30,13 @@ public class UI : MonoBehaviour
     }
 
     //Изменение способностей
-    public void ChangeSpells(GameObject[] playerSpells)
+    public void ChangeSpells(List<GameObject> playerSpells)
     {
         Transform frames = spells.GetComponent<Transform>();
 
-        for (int i = 0; i < playerSpells.Length; i++)
+        for (int i = 0; i < playerSpells.Count; i++)
         {
-            var spell = frames.GetChild(i).GetChild(i);
+            var spell = frames.GetChild(i).GetChild(0);
             spell.GetComponent<SpriteRenderer>().sprite = playerSpells[i].GetComponent<Spell>().icon;
             spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].name;
             spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().coolDown;
@@ -77,7 +78,7 @@ public class UI : MonoBehaviour
     //Пока текста о том, что комната зачищена
     public void ShowTextRoomCompleted(bool hideText)
     {     
-        StartCoroutine(SmoothAppearance(textRoomCompleted, hideText));   
+        StartCoroutine(SmoothAppearance(textRoomCompleted, hideText));  
     }
 
     //Плавное появление надписи
