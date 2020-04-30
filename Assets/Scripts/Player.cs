@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     public float attackDelay = 1.0f;
     private bool attackCheck = true;
     private UI ui;
+    public GameObject[] spells;
 
     public bool noDeath = false; //Невозможность умереть
     public GameObject rotateMoution; //Таргет для способности

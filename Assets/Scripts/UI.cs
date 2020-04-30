@@ -11,6 +11,7 @@ public class UI : MonoBehaviour
     private GameObject health; //Здоровье персонажа (Список сердец)
     private Text textDeath; //Текст о смерти героя
     private Player player;
+    private GameObject spells; //Способности персонажа
 
     private void Start()
     {
@@ -20,9 +21,25 @@ public class UI : MonoBehaviour
         health = GameObject.Find("Health");
         textDeath = GameObject.Find("Text_death_player").GetComponent<Text>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        spells = GameObject.Find("Spells");
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
+        ChangeSpells(player.spells);
+    }
+
+    //Изменение способностей
+    public void ChangeSpells(GameObject[] playerSpells)
+    {
+        Transform frames = spells.GetComponent<Transform>();
+
+        for (int i = 0; i < playerSpells.Length; i++)
+        {
+            var spell = frames.GetChild(i).GetChild(i);
+            spell.GetComponent<SpriteRenderer>().sprite = playerSpells[i].GetComponent<Spell>().icon;
+            spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].name;
+            spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().coolDown;
+        }
     }
 
     //Сообщение о том, что игрок мёртв

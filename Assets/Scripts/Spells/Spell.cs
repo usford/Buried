@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
+public class Spell : MonoBehaviour
 {
+    public string nameSpell = "";
     public float damage = 20.0f; //Урон от способности
-    public float skillSpeed = 10.0f;
-    private Player player;
-    private Vector3 mousePosition;
-    private Transform moution; //Точка спавна способности
-    private Animator animator;
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    public float skillSpeed = 15.0f; //Скорость полёта способности
+    public float coolDown = 10.0f; //Время перезарядки способности
+    public Player player;
+    public Vector3 mousePosition;
+    public Transform moution; //Точка спавна способности
+    public Animator animator;
+    public Rigidbody2D rb;
+    public SpriteRenderer spriteRenderer;
+    public Sprite icon;
 
     private void Start() 
     {
@@ -55,7 +58,7 @@ public class Skill : MonoBehaviour
     }
 
     //Уничтожить способность
-    private IEnumerator Destroy()
+    public virtual IEnumerator Destroy()
     {
         CheckDistance();
         rb.velocity = new Vector2 (0.0f, 0.0f);
@@ -97,8 +100,10 @@ public class Skill : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "OuterWall" || other.tag == "Exit" || other.tag == "Enemy")
+    //Проверка
+    public virtual void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.tag == "OuterWall")
         {
             StartCoroutine(Destroy());
         }
