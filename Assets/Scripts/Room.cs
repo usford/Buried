@@ -22,5 +22,12 @@ public class Room : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
+
+        GameObject[] trash = GameObject.FindGameObjectsWithTag("Trash");
+        
+        foreach (GameObject t in trash)
+        {
+            Destroy(t);
+        }
     }
 }

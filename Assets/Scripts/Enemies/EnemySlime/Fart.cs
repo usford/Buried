@@ -10,7 +10,7 @@ public class Fart : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<Player>().Damage(damage);
+            other.GetComponent<Player>().ReceiveDamage(damage);
         }
     }
 

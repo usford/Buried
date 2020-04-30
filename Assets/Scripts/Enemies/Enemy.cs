@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     }
 
     //Урон, полученный врагом
-    public void Damage(float damageTaken)
+    public void ReceiveDamage(float damageTaken)
     {
         // Debug.Log(damageTaken);
         currentHp -= damageTaken;
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Vector2 movement = player.GetComponent<Transform>().position - transform.position ;
         player.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
-        player.Damage(damage); 
+        player.ReceiveDamage(damage); 
     }
 
     //Смерть

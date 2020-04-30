@@ -79,6 +79,8 @@ public class BoardManager : MonoBehaviour
     {   
         if (currentRoom != null) currentRoom.SetActive(false);
 
+        
+
         rooms[posX, posY].SetActive(true);
 
         

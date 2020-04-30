@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     private UI ui;
 
     public bool noDeath = false; //Невозможность умереть
+    public GameObject rotateMoution; //Таргет для способности
     private void Awake()
     {
         currentHp = maxHp;
@@ -75,6 +76,19 @@ public class Player : MonoBehaviour
         {
             move = false;
         }
+    }
+
+    private void Update() {
+        RotateMoution();
+    }
+
+    private void RotateMoution()
+    {
+        var mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        var angle = Vector2.Angle(Vector2.right, mousePosition - transform.position);
+
+        rotateMoution.transform.rotation = Quaternion.Euler(0f, 0f, transform.position.y < mousePosition.y ? angle : -angle);
     }
 
 
@@ -102,7 +116,7 @@ public class Player : MonoBehaviour
         attackCheck = false;
 
         var mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         var angle = Vector2.Angle(Vector2.right, mousePosition - transform.position);
 
         Vector2 movement = mousePosition - transform.position;
@@ -114,7 +128,7 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.GetComponent<Enemy>().Damage(swordDamage);
+                hit.collider.GetComponent<Enemy>().ReceiveDamage(swordDamage);
                 hit.collider.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
             }
         }
@@ -134,7 +148,7 @@ public class Player : MonoBehaviour
     }
 
     //Полученный урон
-    public void Damage(float damageTaken)
+    public void ReceiveDamage(float damageTaken)
     {
         if (invulnerabilityCheck) return;
         invulnerabilityCheck = true;
@@ -143,6 +157,7 @@ public class Player : MonoBehaviour
         if (CurrentHp <= 0 && !noDeath)
         {
             Death();
+            
         }
     }
 
