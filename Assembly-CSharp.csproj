@@ -55,11 +55,14 @@
      <Compile Include="Assets\Scripts\Gold.cs" />
      <Compile Include="Assets\Scripts\Loader.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\RandomFloor.cs" />
+     <Compile Include="Assets\Scripts\RandomGenerate.cs" />
      <Compile Include="Assets\Scripts\Room.cs" />
      <Compile Include="Assets\Scripts\Spells\Spell.cs" />
      <Compile Include="Assets\Scripts\Spells\SpellBook.cs" />
      <Compile Include="Assets\Scripts\Spells\SpellComet.cs" />
      <Compile Include="Assets\Scripts\Spells\SpellIcons.cs" />
+     <Compile Include="Assets\Scripts\Spikes.cs" />
      <Compile Include="Assets\Scripts\Target.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
      <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font2\license.txt" />

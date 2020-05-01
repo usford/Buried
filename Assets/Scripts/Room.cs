@@ -13,6 +13,16 @@ public class Room : MonoBehaviour
     public int posY;
     public bool passed = false;
 
+    private void Start()
+    {
+        // Transform children = GetComponent<Transform>();
+
+        // foreach (Transform child in children)
+        // {
+        //     Debug.Log(child);
+        // }
+    }
+
     private void OnDisable() 
     { 
         foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
