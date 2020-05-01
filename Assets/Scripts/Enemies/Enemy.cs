@@ -10,10 +10,15 @@ public class Enemy : MonoBehaviour
     public float powerForce = 10.0f; //Сила толчка
     public float maxSpeed = 2.0f; //Скорость врага
     public Player player;
+    public int maxDropGold = 1; //Максимальное кол-во золота, которое может выпасть с моба
+    public int minDropGold = 0; // Минимальное кол-во золота, которое может выпасть с моба
+    public float chanceDropGold = 0.5f; //Шанс выпадения золота с монстра
+    public GameManager gameManager;
 
     private void Start() 
     {
         currentHp = maxHp;
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     //Урон, полученный врагом
@@ -48,7 +53,22 @@ public class Enemy : MonoBehaviour
     //Смерть
     public virtual void Death()
     {
+        float random = Random.Range(0.0f, chanceDropGold + 0.1f);
+
+        if (random <= chanceDropGold)
+            DropGold();
+
         Destroy(gameObject);
+    }
+
+    //Дроп золота при смерти монстра
+    public virtual void DropGold()
+    {
+        int randomGold = Random.Range(minDropGold, maxDropGold + 1);
+
+        GameObject newGold = Instantiate(Resources.Load<GameObject>("Items/Gold1"), transform.position, Quaternion.identity);
+        newGold.GetComponent<Gold>().Amount += randomGold;
+        newGold.transform.SetParent(gameManager.boardScript.currentRoom.transform);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

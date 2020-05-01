@@ -5,4 +5,5 @@ using UnityEngine;
 public class RandomGenerate : MonoBehaviour
 {
     public List<Sprite> floorSprites;
+    public List<Sprite> outerWallSprites;
 }

@@ -12,6 +12,12 @@ public class Room : MonoBehaviour
     public int posX;
     public int posY;
     public bool passed = false;
+    public List<GameObject> enemies; //Враги, которые могут заспавнится в этой комнате
+    public bool spawnChest = false; //Может ли в этой комнате заспавниться сундук
+    public float chanceSpawnChest = 0.2f;
+    public int maxEnemy = 2; //Максимальное количество врагов в комнате
+    public int minEnemy = 1; //Минимальное количество врагов в комнате
+    public List<Vector2> spawnedPositions; //Где может что-либо заспавниться
 
     private void Start()
     {

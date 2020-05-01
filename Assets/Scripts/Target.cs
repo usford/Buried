@@ -10,6 +10,7 @@ public class Target : MonoBehaviour
     private bool checkTarget = false;
 
     private GameManager gameManager;
+    private float chanceSpawnChest = 0.2f; //Шанс заспавнить сундук
     private void Start() 
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -67,11 +68,9 @@ public class Target : MonoBehaviour
         int centreColumns = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().columns / 2);
         int centreRows = (int)Mathf.Floor(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().rows / 2);
 
-        float chance = 0.3f; //Шанс на сундук
+        float random = Random.Range(0.0f, 1.1f);
 
-        float random = Random.Range(0.0f, 1.0f);
-
-        if (random <= chance)
+        if (random <= chanceSpawnChest)
         {
             GameObject newChest = Instantiate(Resources.Load<GameObject>("Items/Chest1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
             newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);

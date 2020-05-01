@@ -59,7 +59,7 @@ public class Exit : MonoBehaviour
             }else if (dir == "Снизу зашёл")
             {
                 spawnedX = (int)Mathf.Floor(boardScript.rooms[roomX, roomY].GetComponent<Room>().columns / 2);
-                spawnedY =boardScript.rooms[roomX, roomY].GetComponent<Room>().rows - 2;
+                spawnedY = boardScript.rooms[roomX, roomY].GetComponent<Room>().rows - 2;
             }
 
             ui.PaintingRoom(boardScript.rooms, roomX, roomY, boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);

@@ -18,7 +18,6 @@ public class BoardManager : MonoBehaviour
     public GameObject roomChallenge;
     public GameObject chest; //Сундук с сокровищами
     public GameObject currentRoom;
-    public GameObject[] enemies; //Враги
 
 
     //public Map currentRoom;
@@ -44,7 +43,10 @@ public class BoardManager : MonoBehaviour
         //Создание цели для комнаты
         if (target)
         {
-            float chance = 0.2f; //Шанс на сундук
+            float chance = 0.0f; //Шанс на сундук
+
+            if (newRoom.GetComponent<Room>().spawnChest)
+                chance = newRoom.GetComponent<Room>().chanceSpawnChest + 0.1f;
 
             float random = Random.Range(0.0f, 1.0f);
 
@@ -58,12 +60,22 @@ public class BoardManager : MonoBehaviour
                 newChest.GetComponent<Target>().posY = posY;
             }else
             {
-                int count = Random.Range(1, 3);
+                int minEnemy = newRoom.GetComponent<Room>().minEnemy;
+                int maxEnemy = newRoom.GetComponent<Room>().maxEnemy + 1;
+
+                int count = Random.Range(minEnemy, maxEnemy);
+                List<GameObject> enemies = new List<GameObject>();
+                enemies = newRoom.GetComponent<Room>().enemies;
+
+                List<Vector2> spawnedPositions = new List<Vector2>();
+                spawnedPositions = newRoom.GetComponent<Room>().spawnedPositions;
 
                 for (int i = 0; i < count; i++)
                 {
-                    GameObject newEnemy = Instantiate(enemies[enemies.Length - 1], new Vector3(centreColumns, centreRows + i, 0.0f), Quaternion.identity);
+                    int randomSpawn = Random.Range(0, spawnedPositions.Count); 
+                    GameObject newEnemy = Instantiate(enemies[enemies.Count - 1], spawnedPositions[randomSpawn], Quaternion.identity);
                     newEnemy.transform.SetParent(newRoom.transform);
+                    spawnedPositions.Remove(spawnedPositions[randomSpawn]);
                 }
                 newRoom.AddComponent<Target>().type = "enemies";
                 newRoom.GetComponent<Target>().posX = posX;
@@ -148,8 +160,8 @@ public class BoardManager : MonoBehaviour
     //Создание выходов в комнате
     private void RoomBuildExit()
     {
-        int posX = 0;
-        int posY = 0;
+        float posX = 0;
+        float posY = 0;
         int roomX = 0;
         int roomY = 0;
         for (int x = 0; x < rooms.GetLength(0); x++)
@@ -210,7 +222,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //Создание выхода
-    private void RoomCreateExit(int x, int y, int roomX, int roomY, int posX, int posY, float rotationZ, string nameDoor)
+    private void RoomCreateExit(int x, int y, int roomX, int roomY, float posX, float posY, float rotationZ, string nameDoor)
     {
         GameObject cloneExit = Instantiate(exit, new Vector3(posX, posY, 0f), Quaternion.identity);
         cloneExit.GetComponent<Exit>().roomX = roomX;
@@ -239,6 +251,7 @@ public class BoardManager : MonoBehaviour
         
         cloneExit.transform.parent = rooms[x, y].GetComponent<Transform>();
         
+        //Уничтожение стены в том месте, где появится дверь
         foreach (Transform child in rooms[x, y].GetComponentsInChildren<Transform>())
         {
             if (child.gameObject.name == nameDoor)
