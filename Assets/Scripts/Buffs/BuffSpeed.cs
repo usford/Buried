@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffDamage : Buff
+public class BuffSpeed : Buff
 {
-    public float upDamage; //Увеличение урона в процентах
+    public float upSpeed; //Увеличение скорости в процентах
     
     public override float ActuationBuffNumeric(float field)
     {
         //player.SwordDamage = (player.SwordDamage * upDamage) + player.SwordDamage;
 
-        var plusDamage = field * upDamage;
+        var plusSpeed = field * upSpeed;
 
-        return plusDamage;
+        return plusSpeed;
     }
 }

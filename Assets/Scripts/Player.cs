@@ -6,6 +6,18 @@ public class Player : MonoBehaviour
 {
     //Интерфейс персонажа
     public float maxSpeed = 2f; //Скорость
+
+    public float MaxSpeed
+    {
+        get
+        {
+            return maxSpeed;
+        }
+        set
+        {
+            maxSpeed = value;
+        }
+    }
     public float maxHp = 3.0f; //Максимальное здоровье
     public float currentHp; //Текущее здоровье
 
@@ -64,7 +76,7 @@ public class Player : MonoBehaviour
     public float attackDelay = 1.0f; //Задержка после взмаха меча
     private bool attackCheck = true;
     private UI ui;
-    public List<GameObject> spells;
+    public List<GameObject> spells; //Способности персонажа
 
     public List<GameObject> Spells
     {
@@ -76,6 +88,21 @@ public class Player : MonoBehaviour
         {
             spells = value;
             ui.ChangeSpells(spells);
+        }
+    }
+
+    public List<GameObject> buffs; //Бафы на персонаже
+
+    public List<GameObject> Buffs
+    {
+        get
+        {
+            return buffs;
+        }
+        set
+        {
+            buffs = value;
+            ui.AddBuffs(buffs);
         }
     }
 
@@ -129,7 +156,12 @@ public class Player : MonoBehaviour
             ? transform.right * Input.GetAxis("Horizontal")
             : transform.up * Input.GetAxis("Vertical");
 
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * maxSpeed);
+        float plusSpeed = 0.0f;
+
+        plusSpeed = CheckBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed, Buff.TypeBuff.Numeric);
+        float currentSpeed =  maxSpeed + plusSpeed;
+
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * currentSpeed);
 
         
 
@@ -157,7 +189,7 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.GetComponent<Enemy>().ReceiveDamage(swordDamage);
+                hit.collider.GetComponent<Enemy>().ReceiveDamage(SwordDamage);
                 hit.collider.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
             }
         }
@@ -211,6 +243,32 @@ public class Player : MonoBehaviour
         invulnerabilityCheck = false;
     }
 
+    //Проверка на наличие бафа у игрока
+    public float CheckBuff(Buff.UniqueNameBuff _nameBuff, float field, Buff.TypeBuff type)
+    {
+        bool state = false;
+        buffs.ForEach((buff) => 
+        {
+            if (buff.GetComponent<Buff>().uniqueNameBuff == _nameBuff)
+            {
+                switch (type)
+                {
+                    case Buff.TypeBuff.Numeric:
+                    {
+                        state = true;
+                        field = buff.GetComponent<Buff>().ActuationBuffNumeric(field);
+                        break;
+                    }
+                }
+            }
+        });
+
+        field = (state) ? field : 0.0f;
+
+        return field;
+    }
+
+    //Смерть игрока
     private void Death()
     {
         ui.ShowTextDeath();

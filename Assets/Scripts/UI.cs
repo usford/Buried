@@ -13,6 +13,7 @@ public class UI : MonoBehaviour
     private Player player;
     private GameObject spells; //Способности персонажа
     private GameObject videoDeath; //Видео-смерть игрока
+    public GameObject buffs; //Бафы персонажа
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class UI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         spells = GameObject.Find("Spells");
         videoDeath = GameObject.Find("Video_death");
+        buffs = GameObject.Find("Buffs");
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
@@ -42,6 +44,16 @@ public class UI : MonoBehaviour
             spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].name;
             spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().coolDown;
         }
+    }
+
+    //Добавление бафов
+    public void AddBuffs(List<GameObject> playerBuffs)
+    {
+        var buff = Instantiate(playerBuffs[player.buffs.Count - 1]);
+        Vector3 scale = new Vector3(0.5f, 0.5f);
+
+        buff.transform.SetParent(buffs.transform);    
+        buff.transform.localScale = scale;
     }
 
     //Сообщение о том, что игрок мёртв

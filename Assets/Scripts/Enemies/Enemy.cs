@@ -19,12 +19,18 @@ public class Enemy : MonoBehaviour
     {
         currentHp = maxHp;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     //Урон, полученный врагом
     public void ReceiveDamage(float damageTaken)
     {
-        // Debug.Log(damageTaken);
+        //Debug.Log(damageTaken);
+        float plusDamage = 0.0f;
+
+        plusDamage = player.CheckBuff(Buff.UniqueNameBuff.Damage, damageTaken, Buff.TypeBuff.Numeric);
+        damageTaken += plusDamage;
+        //Debug.Log(damageTaken);
         currentHp -= damageTaken;
         StartCoroutine(DamageAnimation());  
     }
@@ -43,8 +49,7 @@ public class Enemy : MonoBehaviour
 
     //Монстр наносит удар
     private void Hit()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    {   
         Vector2 movement = player.GetComponent<Transform>().position - transform.position ;
         player.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
         player.ReceiveDamage(damage); 

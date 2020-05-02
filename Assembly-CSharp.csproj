@@ -47,6 +47,8 @@
   <ItemGroup>     <Compile Include="Assets\Scripts\BoardManager.cs" />
      <Compile Include="Assets\Scripts\Buffs\Buff.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffDamage.cs" />
+     <Compile Include="Assets\Scripts\Buffs\BuffSpeed.cs" />
+     <Compile Include="Assets\Scripts\Buffs\GetBuff.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\Chest.cs" />
      <Compile Include="Assets\Scripts\DeathVideo.cs" />
