@@ -17,8 +17,12 @@ public class Player : MonoBehaviour
         }
         set
         {
-            currentHp = value;
-            ui.ChangeHealth(currentHp);
+            if (value <= maxHp)
+            {
+                currentHp = value;
+                ui.ChangeHealth(currentHp);
+            }
+            
         }
     }
     public int amountGold = 0; //Количество золота у игрока
@@ -44,9 +48,20 @@ public class Player : MonoBehaviour
     private bool move = false;
     public GameObject spriteAttackSword;
     public float swordDamage = 20.0f;
+    public float SwordDamage
+    {
+        get
+        {
+            return swordDamage;
+        }
+        set
+        {
+            swordDamage = value;
+        }
+    }
     public float distanceAttackSword = 1.2f;
     public float powerForce = 15.0f; //Сила толчка 
-    public float attackDelay = 1.0f;
+    public float attackDelay = 1.0f; //Задержка после взмаха меча
     private bool attackCheck = true;
     private UI ui;
     public List<GameObject> spells;
@@ -167,7 +182,7 @@ public class Player : MonoBehaviour
         if (invulnerabilityCheck) return;
         invulnerabilityCheck = true;
         CurrentHp -= damageTaken;
-        StartCoroutine(DamageAnimation());  
+        StartCoroutine(ReceiveDamageAnimation());  
         if (CurrentHp <= 0 && !noDeath)
         {
             Death();
@@ -176,7 +191,7 @@ public class Player : MonoBehaviour
     }
 
     //Анимация получения урона
-    private IEnumerator DamageAnimation()
+    private IEnumerator ReceiveDamageAnimation()
     {
         GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(0.3f);

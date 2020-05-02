@@ -11,11 +11,14 @@ public class DeathVideo : MonoBehaviour
 
     private void Start() 
     {
-        StartCoroutine(PlayVideo());
+        //StartCoroutine(PlayVideo());
     }
 
-    private IEnumerator PlayVideo()
+    public IEnumerator PlayVideo()
     {
+        Color color = rawImage.color;
+        color.a = 1;
+        rawImage.color = color;
         videoPlayer.Prepare();
         WaitForSeconds waitForSeconds = new WaitForSeconds(1);
 

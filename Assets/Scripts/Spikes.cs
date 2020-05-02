@@ -31,12 +31,10 @@ public class Spikes : MonoBehaviour
     //Нанесение урона от шипов
     private IEnumerator Hit(Collider2D player)
     {
-        isPlay = true;
         spiked = true;
         animator.SetTrigger("activate");
         yield return new WaitForSeconds(0.7f);
         if (spiked) player.GetComponent<Player>().ReceiveDamage(damage); 
-        isPlay = false;
 
         yield return new WaitForSeconds(0.4f);
         if (spiked) StartCoroutine(Hit(player));

@@ -19,26 +19,28 @@ public class CameraController : MonoBehaviour
     private void Update() 
     {
         CheckRoom();    
-        Debug.Log(isRoomBig);
-        switch(isRoomBig)
+        if (player != null)
         {
-            case "everywhere":
+            switch(isRoomBig)
             {
-                break;
-            }
+                case "everywhere":
+                {
+                    break;
+                }
 
-            case "columns":
-            {
-                transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-                break;
-            }
+                case "columns":
+                {
+                    transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+                    break;
+                }
 
-            case "rows":
-            {
-                transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-                break;
+                case "rows":
+                {
+                    transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+                    break;
+                }
+                default: break;
             }
-            default: break;
         }
     }
 

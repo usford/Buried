@@ -23,6 +23,7 @@ public class UI : MonoBehaviour
         textDeath = GameObject.Find("Text_death_player").GetComponent<Text>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         spells = GameObject.Find("Spells");
+        videoDeath = GameObject.Find("Video_death");
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
@@ -47,6 +48,7 @@ public class UI : MonoBehaviour
     public void ShowTextDeath()
     {
         StartCoroutine(SmoothAppearance(textDeath, false));  
+        //StartCoroutine(videoDeath.GetComponent<DeathVideo>().PlayVideo());
     }
 
     //Изменение хп героя
