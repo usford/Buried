@@ -47,7 +47,7 @@ public class Target : MonoBehaviour
     private void checkEnemies()
     {
         bool check = false;
-        foreach (Transform child in gameManager.boardScript.rooms[posX, posY].GetComponentsInChildren<Transform>())
+        foreach (Transform child in gameManager.boardScript.currentRoom.GetComponentsInChildren<Transform>())
         {
             if(child.tag != "Enemy") continue;
             check = true;

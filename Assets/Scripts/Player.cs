@@ -228,19 +228,27 @@ public class Player : MonoBehaviour
     public void ReceiveDamage(float damageTaken)
     {
         if (invulnerabilityCheck) return;
-        invulnerabilityCheck = true;
+
+        bool state = CheckSpell(Spell.TypeSpell.Shield);
+
+        if (state)
+        {
+            StartCoroutine(ReceiveDamageAnimation());
+            return;
+        }
+
         CurrentHp -= damageTaken;
         StartCoroutine(ReceiveDamageAnimation());  
         if (CurrentHp <= 0 && !noDeath)
         {
-            Death();
-            
+            Death();   
         }
     }
 
     //Анимация получения урона
     private IEnumerator ReceiveDamageAnimation()
     {
+        invulnerabilityCheck = true;
         GetComponent<SpriteRenderer>().color = Color.red;
         yield return new WaitForSeconds(0.3f);
 
@@ -324,5 +332,29 @@ public class Player : MonoBehaviour
     {
         ui.ShowTextDeath();
         Destroy(gameObject);
+    }
+
+    //Проверка скилла
+    public bool CheckSpell(Spell.TypeSpell typeSpell)
+    {
+        bool state = false;
+        spells.ForEach((spell) =>
+        {    
+            if (spell.GetComponent<Spell>().typeSpell == typeSpell)
+            {
+                Spell[] children = GameObject.FindObjectsOfType<Spell>();
+                foreach (Spell child in children)
+                {
+                    if (child.typeSpell == typeSpell)
+                    {
+                        state = child.isActive;
+                    }
+                }
+            }
+        });
+
+        //field = (state) ? field : 0.0f;
+
+        return state;
     }
 }

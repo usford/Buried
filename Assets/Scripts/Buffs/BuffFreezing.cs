@@ -14,20 +14,24 @@ public class BuffFreezing : Buff
         //StartCoroutine(AnimatiomFreez(enemy));
         //Debug.Log(coroutineRun);
         GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        if (!coroutineRun)
-        {
-            StartCoroutine(AnimationFreeze(enemy));
-        }else
-        {
-            timerCount = 0;
-        }
+        // if (!coroutineRun)
+        // {
+        //     StartCoroutine(AnimationFreeze(enemy));
+        // }else
+        // {
+        //     timerCount = 0;
+        // }
+        StartCoroutine(AnimationFreeze(enemy));
     }
 
     //Анимация заморозки врага
     public IEnumerator AnimationFreeze(GameObject enemy)
     {
-        float minusSpeed = enemy.GetComponent<Enemy>().currentSpeed * 0.3f;
-        enemy.GetComponent<Enemy>().currentSpeed -= minusSpeed;
+        float minusSpeed = enemy.GetComponent<Enemy>().maxSpeed * 0.3f;
+        enemy.GetComponent<Enemy>().currentSpeed =  enemy.GetComponent<Enemy>().maxSpeed - minusSpeed;
+        // Debug.Log($"maxSpeed:{enemy.GetComponent<Enemy>().maxSpeed }");
+        // Debug.Log($"currentSpeed:{enemy.GetComponent<Enemy>().currentSpeed }");
+        // Debug.Log($"minusSpeed:{minusSpeed}");
         coroutineRun = true;  
 
         timerCount = 0;

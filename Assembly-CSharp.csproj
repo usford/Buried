@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Spells\SpellBook.cs" />
      <Compile Include="Assets\Scripts\Spells\SpellComet.cs" />
      <Compile Include="Assets\Scripts\Spells\SpellIcons.cs" />
+     <Compile Include="Assets\Scripts\Spells\SpellShield.cs" />
      <Compile Include="Assets\Scripts\Spikes.cs" />
      <Compile Include="Assets\Scripts\Target.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />

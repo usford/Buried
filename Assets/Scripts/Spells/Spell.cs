@@ -8,29 +8,42 @@ public class Spell : MonoBehaviour
     public float damage = 20.0f; //Урон от способности
     public float skillSpeed = 15.0f; //Скорость полёта способности
     public float coolDown = 10.0f; //Время перезарядки способности
+    [HideInInspector]
     public Player player;
+    [HideInInspector]
     public Vector3 mousePosition;
+    [HideInInspector]
     public Transform moution; //Точка спавна способности
+    [HideInInspector]
     public Animator animator;
+    [HideInInspector]
     public Rigidbody2D rb;
+    
+    public bool isActive = false;
     public SpriteRenderer spriteRenderer;
     public Sprite icon;
+    public TypeSpell typeSpell;
+    
+    
 
-    private void Start() 
+    public virtual void Start() 
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         animator = GetComponent<Animator>();
         moution = GameObject.Find("Moution").GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        
 
         
         var mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         var difference = mousePosition.x - player.transform.position.x;
-        
-        spriteRenderer.flipY = (difference > 0) ? false : true;
 
+        if (spriteRenderer != null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.flipY = (difference > 0) ? false : true;
+        }
         Preparation();  
         Moution();
     }
@@ -107,5 +120,12 @@ public class Spell : MonoBehaviour
         {
             StartCoroutine(Destroy());
         }
+    }
+
+    //Типы способностей
+    public enum TypeSpell
+    {
+        Comet,
+        Shield
     }
 }
