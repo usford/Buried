@@ -8,7 +8,8 @@ public class Enemy : MonoBehaviour
     public float currentHp; //Текущее здоровье
     public float damage = 20.0f; //Урон
     public float powerForce = 10.0f; //Сила толчка
-    public float maxSpeed = 2.0f; //Скорость врага
+    public float maxSpeed = 2.0f; //Максимальная скорость врага
+    public float currentSpeed = 2.0f; //Текущая скорость врага
     public Player player;
     public int maxDropGold = 1; //Максимальное кол-во золота, которое может выпасть с моба
     public int minDropGold = 0; // Минимальное кол-во золота, которое может выпасть с моба
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour
     private void Start() 
     {
         currentHp = maxHp;
+        currentSpeed = maxSpeed;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
@@ -25,13 +27,21 @@ public class Enemy : MonoBehaviour
     //Урон, полученный врагом
     public void ReceiveDamage(float damageTaken)
     {
-        //Debug.Log(damageTaken);
         float plusDamage = 0.0f;
 
-        plusDamage = player.CheckBuff(Buff.UniqueNameBuff.Damage, damageTaken, Buff.TypeBuff.Numeric);
+        //plusDamage = player.CheckBuff(Buff.UniqueNameBuff.Damage, damageTaken, Buff.TypeBuff.Numeric);
+
+        bool check = player.CheckBuff(Buff.UniqueNameBuff.Damage, Buff.TypeBuff.Numeric);
+
+        if (check)
+        {
+            plusDamage = player.ActivateTargetNumeric(Buff.UniqueNameBuff.Damage, damageTaken);
+        }   
         damageTaken += plusDamage;
-        //Debug.Log(damageTaken);
         currentHp -= damageTaken;
+
+        //Debug.Log(damageTaken);
+        
         StartCoroutine(DamageAnimation());  
     }
 
@@ -43,8 +53,18 @@ public class Enemy : MonoBehaviour
         if (currentHp <= 0)
         {
             Death();
-        }
-        GetComponent<SpriteRenderer>().color = Color.white;
+        }else
+        {    
+            bool check = player.CheckBuff(Buff.UniqueNameBuff.Freezing, Buff.TypeBuff.Target);    
+            if (check)
+            {
+                GetComponent<SpriteRenderer>().color = Color.blue;
+                player.ActivateTargetBuff(Buff.UniqueNameBuff.Freezing, gameObject);
+            }else
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }  
     }
 
     //Монстр наносит удар

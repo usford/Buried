@@ -108,12 +108,14 @@ public class Player : MonoBehaviour
 
     public bool noDeath = false; //Невозможность умереть
     public GameObject rotateMoution; //Таргет для способности
+    private GameManager gameManager;
     private void Awake()
     {
         currentHp = maxHp;
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     private void Start() {
@@ -124,7 +126,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButton("Horizontal")) Run("Horizontal");
         if (Input.GetButton("Vertical")) Run("Vertical");   
-        if (Input.GetButtonDown("Fire1") && attackCheck) StartCoroutine(Attack());
+        if (Input.GetButton("Fire1") && attackCheck) StartCoroutine(Attack());
 
         animator.SetBool("move", move);
 
@@ -158,10 +160,24 @@ public class Player : MonoBehaviour
 
         float plusSpeed = 0.0f;
 
-        plusSpeed = CheckBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed, Buff.TypeBuff.Numeric);
+        bool check = CheckBuff(Buff.UniqueNameBuff.PlayerSpeed, Buff.TypeBuff.Numeric);
+
+        if (check)
+        {
+             plusSpeed = ActivateTargetNumeric(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
+        }
+        
+       
         float currentSpeed =  maxSpeed + plusSpeed;
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * currentSpeed);
+        // if (type == "Horizontal")
+        // {
+        //     rb.velocity= new Vector2(currentSpeed * Input.GetAxis("Horizontal"), rb.velocity.y);
+        // }else if (type == "Vertical")
+        // {
+        //     rb.velocity= new Vector2(rb.velocity.x, Input.GetAxis("Vertical") * currentSpeed);
+        // }
 
         
 
@@ -244,7 +260,7 @@ public class Player : MonoBehaviour
     }
 
     //Проверка на наличие бафа у игрока
-    public float CheckBuff(Buff.UniqueNameBuff _nameBuff, float field, Buff.TypeBuff type)
+    public bool CheckBuff(Buff.UniqueNameBuff _nameBuff, Buff.TypeBuff type)
     {
         bool state = false;
         buffs.ForEach((buff) => 
@@ -256,14 +272,49 @@ public class Player : MonoBehaviour
                     case Buff.TypeBuff.Numeric:
                     {
                         state = true;
-                        field = buff.GetComponent<Buff>().ActuationBuffNumeric(field);
+                        //field = buff.GetComponent<Buff>().ActuationBuffNumeric(field);
+                        break;
+                    }
+                    case Buff.TypeBuff.Target:
+                    {
+                        state = true;
                         break;
                     }
                 }
             }
         });
 
-        field = (state) ? field : 0.0f;
+        //field = (state) ? field : 0.0f;
+
+        return state;
+    }
+
+    //Срабатывание таргетного бафа
+    public void ActivateTargetBuff(Buff.UniqueNameBuff uniqueNameBuff, GameObject enemy)
+    {
+        Transform children = gameManager.ui.buffs.GetComponent<Transform>();
+
+        foreach (Transform child in children)
+        {
+            if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
+            {
+                child.GetComponent<Buff>().ActuationBuffTarget(enemy);
+            }
+        }
+    }
+
+    //Срабатывание числового бафа
+    public float ActivateTargetNumeric(Buff.UniqueNameBuff uniqueNameBuff, float field)
+    {
+        Transform children = gameManager.ui.buffs.GetComponent<Transform>();
+
+        foreach (Transform child in children)
+        {
+            if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
+            {
+                field = child.GetComponent<Buff>().ActuationBuffNumeric(field);
+            }
+        }
 
         return field;
     }

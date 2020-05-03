@@ -30,6 +30,12 @@ public class Buff : MonoBehaviour
         return field;
     }
 
+    //Баф направленный на таргет
+    public virtual void ActuationBuffTarget(GameObject gameObject)
+    {
+
+    }
+
     //Удаление бафа
     private IEnumerator DeleteBuff(float duration)
     {
@@ -79,11 +85,13 @@ public class Buff : MonoBehaviour
     public enum TypeBuff
     {
         Numeric, //Числовые бафы
+        Target, //Таргетные бафы
     }
 
     public enum UniqueNameBuff
     {
         Damage,
-        PlayerSpeed
+        PlayerSpeed,
+        Freezing
     }
 }

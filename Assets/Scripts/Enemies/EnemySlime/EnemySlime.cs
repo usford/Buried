@@ -42,7 +42,7 @@ public class EnemySlime : Enemy
     
     private void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * maxSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * currentSpeed);
          
         //Проверка на наличие стены
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, 0.75f);
