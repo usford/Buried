@@ -233,7 +233,6 @@ public class Player : MonoBehaviour
 
         if (state)
         {
-            StartCoroutine(ReceiveDamageAnimation());
             return;
         }
 
