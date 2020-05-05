@@ -7,13 +7,12 @@ public class BuffFreezing : BuffTarget
     public float freezeTime = 0.5f; //Сколько персонаж будет заморожен
     public float freezeSpeed = 0.3f; //На сколько персонаж будет медленее двигаться
     
-    public override dynamic ActuationBuff(dynamic enemy)
+    public override void ActuationTargetBuff(GameObject enemy)
     {
 
         GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         StartCoroutine(AnimationDebuff(enemy));
-        return 0;
     }
 
     //Анимация заморозки врага

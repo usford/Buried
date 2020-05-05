@@ -9,9 +9,8 @@ public class BuffTarget : Buff
     [HideInInspector]
     public float timerCount; //Отсчёт для поддержания дебаффа
 
-    public override dynamic ActuationBuff(dynamic enemy)
+    public override void ActuationTargetBuff(GameObject enemy)
     {
-        return 0;
     }
 
     //Анимация дебаффа

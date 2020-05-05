@@ -48,6 +48,7 @@
      <Compile Include="Assets\Scripts\Buffs\Buff.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffDamage.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffFreezing.cs" />
+     <Compile Include="Assets\Scripts\Buffs\BuffGold.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffNumeric.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffSpeed.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffTarget.cs" />

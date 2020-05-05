@@ -13,7 +13,20 @@ public class Gold : MonoBehaviour
         }
         set
         {
-            amount = value;
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            float plusGold = 0.0f;
+
+            bool check = player.CheckBuff(Buff.UniqueNameBuff.Gold);
+
+            if (check)
+            {
+                plusGold = player.ActivateNumericBuff(Buff.UniqueNameBuff.Gold, value);
+                //Debug.Log(plusGold);
+            }
+
+            amount = value + (int)plusGold; 
+            Debug.Log($"plusGold:{plusGold}");
+            Debug.Log($"value:{value}");
             SwitchSprite(amount);
         }
     }

@@ -5,4 +5,9 @@ using UnityEngine;
 public class BuffNumeric : Buff
 {
     public float up; //Увеличение
+
+    public override float ActuationNumericBuff(float field)
+    {
+        return field;
+    }
 }

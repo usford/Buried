@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuffSpeed : BuffNumeric
 {
-    public override dynamic ActuationBuff(dynamic field)
+    public override float ActuationNumericBuff(float field)
     {
         var plusSpeed = field * up;
 

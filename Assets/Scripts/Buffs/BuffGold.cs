@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffDamage : BuffNumeric
-{ 
+public class BuffGold : BuffNumeric
+{
     public override float ActuationNumericBuff(float field)
     {
-        var plusDamage = field * up;
+        var plusGold = field * up;
 
-        return plusDamage;
+        return plusGold;
     }
 }

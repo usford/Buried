@@ -140,6 +140,7 @@ public class Player : MonoBehaviour
         RotateMoution();
     }
 
+    //Поворот точки отсчёта таргетной способности
     private void RotateMoution()
     {
         var mousePosition = Input.mousePosition;
@@ -164,8 +165,9 @@ public class Player : MonoBehaviour
 
         if (check)
         {
-             plusSpeed = ActivateBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
+             plusSpeed = ActivateNumericBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
         }
+
         
        
         float currentSpeed =  maxSpeed + plusSpeed;
@@ -282,20 +284,34 @@ public class Player : MonoBehaviour
         return state;
     }
 
-    //Срабатывание таргетного бафа
-    public dynamic ActivateBuff(Buff.UniqueNameBuff uniqueNameBuff, dynamic field)
+    //Срабатывание числового бафа
+    public float ActivateNumericBuff(Buff.UniqueNameBuff uniqueNameBuff, float field)
     {
-        Transform children = gameManager.ui.buffs.GetComponent<Transform>();
+        Transform children = ui.buffs.GetComponent<Transform>();
 
         foreach (Transform child in children)
         {
             if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
             {
-                field = child.GetComponent<Buff>().ActuationBuff(field);
+                field = child.GetComponent<Buff>().ActuationNumericBuff(field);
             }
         }
 
         return field;
+    }
+
+    //Срабатывание таргетного бафа
+    public void ActivateTargetBuff(Buff.UniqueNameBuff uniqueNameBuff, GameObject enemy)
+    {
+        Transform children = ui.buffs.GetComponent<Transform>();
+
+        foreach (Transform child in children)
+        {
+            if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
+            {
+                child.GetComponent<Buff>().ActuationTargetBuff(enemy);
+            }
+        }
     }
 
     //Смерть игрока

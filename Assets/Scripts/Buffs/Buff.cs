@@ -25,9 +25,14 @@ public class Buff : MonoBehaviour
     }
 
     //Срабатывание бафа с увеличением чего-то
-    public virtual dynamic ActuationBuff(dynamic field)
+    public virtual float ActuationNumericBuff(float field)
     {
         return field;
+    }
+
+    //Срабатывание таргетного бафа
+    public virtual void ActuationTargetBuff(GameObject enemy)
+    {
     }
     //Удаление бафа
     private IEnumerator DeleteBuff(float duration)
@@ -79,6 +84,7 @@ public class Buff : MonoBehaviour
     {
         Damage,
         PlayerSpeed,
-        Freezing
+        Freezing,
+        Gold,
     }
 }

@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
 
         if (check)
         {
-            plusDamage = player.ActivateBuff(Buff.UniqueNameBuff.Damage, damageTaken);
+            plusDamage = player.ActivateNumericBuff(Buff.UniqueNameBuff.Damage, damageTaken);
         }   
         damageTaken += plusDamage;
         currentHp -= damageTaken;
@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
             if (check)
             {
                 GetComponent<SpriteRenderer>().color = Color.blue;
-                player.ActivateBuff(Buff.UniqueNameBuff.Freezing, gameObject);
+                player.ActivateTargetBuff(Buff.UniqueNameBuff.Freezing, gameObject);
             }else
             {
                 GetComponent<SpriteRenderer>().color = Color.white;
