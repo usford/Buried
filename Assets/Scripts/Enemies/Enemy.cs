@@ -31,16 +31,16 @@ public class Enemy : MonoBehaviour
 
         //plusDamage = player.CheckBuff(Buff.UniqueNameBuff.Damage, damageTaken, Buff.TypeBuff.Numeric);
 
-        bool check = player.CheckBuff(Buff.UniqueNameBuff.Damage, Buff.TypeBuff.Numeric);
+        bool check = player.CheckBuff(Buff.UniqueNameBuff.Damage);
 
         if (check)
         {
-            plusDamage = player.ActivateTargetNumeric(Buff.UniqueNameBuff.Damage, damageTaken);
+            plusDamage = player.ActivateBuff(Buff.UniqueNameBuff.Damage, damageTaken);
         }   
         damageTaken += plusDamage;
         currentHp -= damageTaken;
 
-        //Debug.Log(damageTaken);
+        Debug.Log(damageTaken);
         
         StartCoroutine(DamageAnimation());  
     }
@@ -55,11 +55,11 @@ public class Enemy : MonoBehaviour
             Death();
         }else
         {    
-            bool check = player.CheckBuff(Buff.UniqueNameBuff.Freezing, Buff.TypeBuff.Target);    
+            bool check = player.CheckBuff(Buff.UniqueNameBuff.Freezing);    
             if (check)
             {
                 GetComponent<SpriteRenderer>().color = Color.blue;
-                player.ActivateTargetBuff(Buff.UniqueNameBuff.Freezing, gameObject);
+                player.ActivateBuff(Buff.UniqueNameBuff.Freezing, gameObject);
             }else
             {
                 GetComponent<SpriteRenderer>().color = Color.white;

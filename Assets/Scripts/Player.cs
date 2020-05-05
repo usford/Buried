@@ -160,11 +160,11 @@ public class Player : MonoBehaviour
 
         float plusSpeed = 0.0f;
 
-        bool check = CheckBuff(Buff.UniqueNameBuff.PlayerSpeed, Buff.TypeBuff.Numeric);
+        bool check = CheckBuff(Buff.UniqueNameBuff.PlayerSpeed);
 
         if (check)
         {
-             plusSpeed = ActivateTargetNumeric(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
+             plusSpeed = ActivateBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
         }
         
        
@@ -267,37 +267,23 @@ public class Player : MonoBehaviour
     }
 
     //Проверка на наличие бафа у игрока
-    public bool CheckBuff(Buff.UniqueNameBuff _nameBuff, Buff.TypeBuff type)
+    public bool CheckBuff(Buff.UniqueNameBuff _nameBuff)
     {
         bool state = false;
         buffs.ForEach((buff) => 
         {
             if (buff.GetComponent<Buff>().uniqueNameBuff == _nameBuff)
             {
-                switch (type)
-                {
-                    case Buff.TypeBuff.Numeric:
-                    {
-                        state = true;
-                        //field = buff.GetComponent<Buff>().ActuationBuffNumeric(field);
-                        break;
-                    }
-                    case Buff.TypeBuff.Target:
-                    {
-                        state = true;
-                        break;
-                    }
-                }
+                state = true;
             }
         });
 
-        //field = (state) ? field : 0.0f;
 
         return state;
     }
 
     //Срабатывание таргетного бафа
-    public void ActivateTargetBuff(Buff.UniqueNameBuff uniqueNameBuff, GameObject enemy)
+    public dynamic ActivateBuff(Buff.UniqueNameBuff uniqueNameBuff, dynamic field)
     {
         Transform children = gameManager.ui.buffs.GetComponent<Transform>();
 
@@ -305,21 +291,7 @@ public class Player : MonoBehaviour
         {
             if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
             {
-                child.GetComponent<Buff>().ActuationBuffTarget(enemy);
-            }
-        }
-    }
-
-    //Срабатывание числового бафа
-    public float ActivateTargetNumeric(Buff.UniqueNameBuff uniqueNameBuff, float field)
-    {
-        Transform children = gameManager.ui.buffs.GetComponent<Transform>();
-
-        foreach (Transform child in children)
-        {
-            if (child.GetComponent<Buff>().uniqueNameBuff == uniqueNameBuff)
-            {
-                field = child.GetComponent<Buff>().ActuationBuffNumeric(field);
+                field = child.GetComponent<Buff>().ActuationBuff(field);
             }
         }
 

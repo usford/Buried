@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffDamage : Buff
-{
-    public float upDamage; //Увеличение урона в процентах
-    
-    public override float ActuationBuffNumeric(float field)
+public class BuffDamage : BuffNumeric
+{ 
+    public override dynamic ActuationBuff(dynamic field)
     {
-        //player.SwordDamage = (player.SwordDamage * upDamage) + player.SwordDamage;
-
-        var plusDamage = field * upDamage;
+        var plusDamage = field * up;
 
         return plusDamage;
     }

@@ -25,17 +25,10 @@ public class Buff : MonoBehaviour
     }
 
     //Срабатывание бафа с увеличением чего-то
-    public virtual float ActuationBuffNumeric(float field)
+    public virtual dynamic ActuationBuff(dynamic field)
     {
         return field;
     }
-
-    //Баф направленный на таргет
-    public virtual void ActuationBuffTarget(GameObject gameObject)
-    {
-
-    }
-
     //Удаление бафа
     private IEnumerator DeleteBuff(float duration)
     {
@@ -80,12 +73,6 @@ public class Buff : MonoBehaviour
         //StartCoroutine(coroutine);
         count = 0;
         timer.fillAmount = 0;
-    }
-
-    public enum TypeBuff
-    {
-        Numeric, //Числовые бафы
-        Target, //Таргетные бафы
     }
 
     public enum UniqueNameBuff
