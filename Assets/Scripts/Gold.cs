@@ -25,8 +25,6 @@ public class Gold : MonoBehaviour
             }
 
             amount = value + (int)plusGold; 
-            Debug.Log($"plusGold:{plusGold}");
-            Debug.Log($"value:{value}");
             SwitchSprite(amount);
         }
     }

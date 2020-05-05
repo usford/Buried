@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     public int minDropGold = 0; // Минимальное кол-во золота, которое может выпасть с моба
     public float chanceDropGold = 0.5f; //Шанс выпадения золота с монстра
     public GameManager gameManager;
+    private Text textDamage; //Текст урона
 
     private void Start() 
     {
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
         currentSpeed = maxSpeed;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        textDamage = GetComponentInChildren<Text>();
     }
 
     //Урон, полученный врагом
@@ -39,10 +42,29 @@ public class Enemy : MonoBehaviour
         }   
         damageTaken += plusDamage;
         currentHp -= damageTaken;
-
-        Debug.Log(damageTaken);
+        StartCoroutine(TextDamageAnimation(damageTaken));
         
         StartCoroutine(DamageAnimation());  
+    }
+
+    private IEnumerator TextDamageAnimation(float damageTaken)
+    {
+        textDamage.text = $"-{damageTaken}";
+        Color color = textDamage.color;
+        color.a = 1;
+
+        textDamage.color = color;
+        float count = 0.0f;
+        textDamage.transform.position = transform.position;
+        while(count < 0.3f)
+        {
+            textDamage.transform.Translate(transform.up * 0.03f);
+            count += 0.03f;
+            yield return new WaitForSeconds(0.03f);
+        }
+        //yield return new WaitForSeconds(1f);
+        color.a = 0;
+        textDamage.color = color;
     }
 
     //Анимация получения урона
