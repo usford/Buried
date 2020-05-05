@@ -352,8 +352,6 @@ public class Player : MonoBehaviour
             }
         });
 
-        //field = (state) ? field : 0.0f;
-
         return state;
     }
 }

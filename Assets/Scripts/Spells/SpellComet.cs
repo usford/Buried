@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellComet : Spell
+public class SpellComet : SpellTarget
 {
     public override void OnTriggerEnter2D(Collider2D other)
     {

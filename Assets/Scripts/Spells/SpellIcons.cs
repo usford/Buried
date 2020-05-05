@@ -22,7 +22,8 @@ public class SpellIcons : MonoBehaviour
     //Создание скилла
     private void CreateSkill(string nameSpell)
     {
-        Instantiate(Resources.Load<GameObject>($"Spells/{nameSpell}"));
+        GameObject go = Instantiate(Resources.Load<GameObject>($"Spells/{nameSpell}"));
+        go.GetComponent<Spell>().ActivateSpell();
         StartCoroutine(timeCoolDown());
     }
 
