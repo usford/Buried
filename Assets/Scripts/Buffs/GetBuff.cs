@@ -40,10 +40,10 @@ public class GetBuff : MonoBehaviour
         string nameBuff = "";
         player.buffs.ForEach((_buff) => 
         {
-            if (buff.GetComponent<Buff>().nameBuff == _buff.GetComponent<Buff>().nameBuff)
+            if (buff.GetComponent<Buff>().buffInfo.nameBuff == _buff.GetComponent<Buff>().buffInfo.nameBuff)
             {
                 isBuff = true;
-                nameBuff = _buff.GetComponent<Buff>().nameBuff;
+                nameBuff = _buff.GetComponent<Buff>().buffInfo.nameBuff;
             }
         });
 
@@ -59,7 +59,7 @@ public class GetBuff : MonoBehaviour
 
             foreach (Transform child in children)
             {
-                if (child.GetComponent<Buff>().nameBuff == nameBuff)
+                if (child.GetComponent<Buff>().buffInfo.nameBuff == nameBuff)
                 {
                     child.GetComponent<Buff>().RefreshBuff();
                 }

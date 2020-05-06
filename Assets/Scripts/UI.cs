@@ -44,9 +44,9 @@ public class UI : MonoBehaviour
         for (int i = 0; i < playerSpells.Count; i++)
         {
             var spell = frames.GetChild(i).GetChild(0);
-            spell.GetComponent<SpriteRenderer>().sprite = playerSpells[i].GetComponent<Spell>().icon;
+            spell.GetComponent<SpriteRenderer>().sprite = playerSpells[i].GetComponent<Spell>().spellInfo.icon;
             spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].GetComponent<Spell>().typeSpell.ToString();
-            spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().coolDown;
+            spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().spellInfo.coolDown;
         }
     }
 

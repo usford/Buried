@@ -42,19 +42,19 @@ public class Gold : MonoBehaviour
     {
         switch(amount)
         {
-            case var n when (n <= 5 && n > 0):
+            case var n when (n <= 10 && n > 0):
             {
                 GetComponent<SpriteRenderer>().sprite = goldSprites[0];
                 break;
             }
             
-            case var n when (n <= 10 && n > 5):
+            case var n when (n <= 20 && n > 10):
             {
                 GetComponent<SpriteRenderer>().sprite = goldSprites[1];
                 break;
             }
 
-            case var n when (n <= 15 && n > 10):
+            case var n when (n > 20):
             {
                 GetComponent<SpriteRenderer>().sprite = goldSprites[2];
                 break;

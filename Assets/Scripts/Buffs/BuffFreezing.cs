@@ -17,6 +17,9 @@ public class BuffFreezing : BuffTarget
         thisBuff = buffInfo.buff as BuffFreezingDetails;
         freezeTime = thisBuff.freezeTime;
         freezeSpeed = thisBuff.freezeSpeed;
+
+        freezeTime += freezeTime * ((float)buffInfo.lvl / 6);
+        freezeSpeed += freezeSpeed * ((float)buffInfo.lvl / 3);
     }
     
     public override void ActuationTargetBuff(GameObject enemy)

@@ -8,6 +8,8 @@ public class BuffDamage : BuffNumeric
     {
         var plusDamage = field * up;
 
+        plusDamage += plusDamage * ((float)buffInfo.lvl);
+
         return plusDamage;
     }
 }

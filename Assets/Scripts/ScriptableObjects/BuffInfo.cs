@@ -9,7 +9,6 @@ public class BuffInfo : ScriptableObject
     public string nameBuff; //Название бафа
     public float duration; //Время действия бафа
     public string description; //Описание бафа
-    public GameObject imageTimer; //Таймер бафа
     public bool isEndless = false; //Бесконечный баф
     public ScriptableObject buff; //Баф
     public int lvl; //Лвл бафа

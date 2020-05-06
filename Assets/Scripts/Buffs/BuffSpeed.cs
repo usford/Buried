@@ -8,6 +8,8 @@ public class BuffSpeed : BuffNumeric
     {
         var plusSpeed = field * up;
 
+        plusSpeed += plusSpeed * ((float)buffInfo.lvl / 6);
+
         return plusSpeed;
     }
 }
