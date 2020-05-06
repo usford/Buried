@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Chest : MonoBehaviour
 {
-    GameObject player;
+    private GameObject player;
 
     public GameObject text;
     public Sprite openChest;

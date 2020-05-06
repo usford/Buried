@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     public BoardManager boardScript;
     public static GameManager instance = null;
     public UI ui;
+
+    public List<SpellInfo> allSpells;
+    public List<BuffInfo> allBuffs;
     
 
     private int level = 1;
@@ -44,6 +47,20 @@ public class GameManager : MonoBehaviour
             //     boardScript.currentRoom.GetComponent<Room>().color = Color.green;
             //     boardScript.ChangeExit(boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);
             // }
+        }
+
+        //Сброс всех улучшений
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            allSpells.ForEach((spell) =>
+            {
+                spell.lvl = 0;
+            });
+
+            allBuffs.ForEach((buff) =>
+            {
+                buff.lvl = 0;
+            });
         }
     }
 

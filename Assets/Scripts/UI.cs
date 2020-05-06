@@ -14,6 +14,8 @@ public class UI : MonoBehaviour
     private GameObject spells; //Способности персонажа
     private GameObject videoDeath; //Видео-смерть игрока
     public GameObject buffs; //Бафы персонажа
+    [HideInInspector]
+    public GameObject shopPanel; //Магазин
 
     private void Start()
     {
@@ -26,6 +28,8 @@ public class UI : MonoBehaviour
         spells = GameObject.Find("Spells");
         videoDeath = GameObject.Find("Video_death");
         buffs = GameObject.Find("Buffs");
+        shopPanel = GameObject.Find("Shop_panel");
+        shopPanel.SetActive(false);
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
@@ -41,7 +45,7 @@ public class UI : MonoBehaviour
         {
             var spell = frames.GetChild(i).GetChild(0);
             spell.GetComponent<SpriteRenderer>().sprite = playerSpells[i].GetComponent<Spell>().icon;
-            spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].name;
+            spell.GetComponent<SpellIcons>().nameSpell = playerSpells[i].GetComponent<Spell>().typeSpell.ToString();
             spell.GetComponent<SpellIcons>().coolDown = playerSpells[i].GetComponent<Spell>().coolDown;
         }
     }

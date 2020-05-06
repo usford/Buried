@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SpellTarget : Spell
 {
-    public float damage = 20.0f; //Урон от способности
-    public float skillSpeed = 15.0f; //Скорость полёта способности
+    [HideInInspector]
+    public float damage; //Урон от способности
+    [HideInInspector]
+    public float spellSpeed; //Скорость полёта способности
     [HideInInspector]
     public Vector3 mousePosition;
     [HideInInspector]
@@ -16,6 +18,19 @@ public class SpellTarget : Spell
     public Rigidbody2D rb;
     [HideInInspector]
     public SpriteRenderer spriteRenderer;
+    [HideInInspector]
+    public SpellTargetInfo spellTargetInfo;
+
+    private void Awake() 
+    {
+        spellTargetInfo = spellInfo.spell as SpellTargetInfo;
+
+        var plusDamage = 20 * spellInfo.lvl;
+        damage = spellTargetInfo.damage + plusDamage;
+
+        var plusSpeed = 0.3f * spellInfo.lvl;
+        spellSpeed = spellTargetInfo.spellSpeed + plusSpeed;
+    }
 
     public override void ActivateSpell()
     {   
@@ -55,7 +70,7 @@ public class SpellTarget : Spell
         float y = moution.position.y - player.transform.position.y;
 
         Vector2 force = new Vector2(x, y);
-        rb.AddForce(force * skillSpeed, ForceMode2D.Impulse);
+        rb.AddForce(force * spellSpeed, ForceMode2D.Impulse);
         //transform.position = Vector3.MoveTowards(transform.position, transform.position + (mousePosition * 3), Time.deltaTime * 10.0f);
     }
 

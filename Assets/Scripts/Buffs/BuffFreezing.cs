@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class BuffFreezing : BuffTarget
 {
-    public float freezeTime = 0.5f; //Сколько персонаж будет заморожен
-    public float freezeSpeed = 0.3f; //На сколько персонаж будет медленее двигаться
+    [HideInInspector]
+    public float freezeTime; //Сколько персонаж будет заморожен
+    [HideInInspector]
+    public float freezeSpeed; //На сколько персонаж будет медленее двигаться
+    [HideInInspector]
+    private BuffFreezingDetails thisBuff;
+
+
+    private void Awake() 
+    {
+        thisBuff = buffInfo.buff as BuffFreezingDetails;
+        freezeTime = thisBuff.freezeTime;
+        freezeSpeed = thisBuff.freezeSpeed;
+    }
     
     public override void ActuationTargetBuff(GameObject enemy)
     {
-
         GameManager gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         StartCoroutine(AnimationDebuff(enemy));
@@ -18,7 +29,7 @@ public class BuffFreezing : BuffTarget
     //Анимация заморозки врага
     public override IEnumerator AnimationDebuff(GameObject enemy)
     {
-        float minusSpeed = enemy.GetComponent<Enemy>().maxSpeed * 0.3f;
+        float minusSpeed = enemy.GetComponent<Enemy>().maxSpeed * freezeSpeed;
         enemy.GetComponent<Enemy>().currentSpeed =  enemy.GetComponent<Enemy>().maxSpeed - minusSpeed;
         coroutineRun = true;  
 

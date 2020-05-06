@@ -5,23 +5,46 @@ using UnityEngine.UI;
 
 public class Buff : MonoBehaviour
 {
+    [HideInInspector]
     public string nameBuff; //Название бафа
+    [HideInInspector]
     public float duration; //Время действия бафа
+    [HideInInspector]
     public string description; //Описание бафа
+    [HideInInspector]
     public GameObject imageTimer; //Таймер бафа
+    [HideInInspector]
     private Image timer; //Картинка таймера
+    [HideInInspector]
+    public bool isEndless = false; //Бесконечный баф
+    [HideInInspector]
+    public int lvl; //Уровень способности
+    [HideInInspector]
+    public bool isFound = false; //Найдена ли способность
 
     [HideInInspector]
     public Player player;
 
     private float count;
     public UniqueNameBuff uniqueNameBuff; //Имя бафа, по которому можно его отследить
+    public BuffInfo buffInfo;
+
+    private void Awake() 
+    {
+        nameBuff = buffInfo.nameBuff;
+        duration = buffInfo.duration;
+        description = buffInfo.description;
+        imageTimer = buffInfo.imageTimer;
+        isEndless = buffInfo.isEndless;
+        lvl = buffInfo.lvl;
+        isFound = buffInfo.isFound;
+    }
 
     private void Start() 
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         timer = imageTimer.GetComponent<Image>();
-        StartCoroutine(DeleteBuff(duration));
+        if (!isEndless) StartCoroutine(DeleteBuff(duration));
     }
 
     //Срабатывание бафа с увеличением чего-то
