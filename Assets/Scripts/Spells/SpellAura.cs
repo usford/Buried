@@ -12,7 +12,7 @@ public class SpellAura : Spell
     private void Awake() {
         spellAuraInfo = spellInfo.spell as SpellAuraInfo;
 
-        var plusDuration = 1 * spellInfo.lvl;
+        var plusDuration = spellAuraInfo.durationSpell * (spellInfo.lvl * 0.1f);
         durationSpell = spellAuraInfo.durationSpell + plusDuration;
     }
 

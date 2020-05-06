@@ -6,9 +6,7 @@ public class BuffSpeed : BuffNumeric
 {
     public override float ActuationNumericBuff(float field)
     {
-        var plusSpeed = field * up;
-
-        plusSpeed += plusSpeed * ((float)buffInfo.lvl / 6);
+        var plusSpeed = field * (up + (0.1f * buffInfo.lvl));
 
         return plusSpeed;
     }

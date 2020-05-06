@@ -6,9 +6,7 @@ public class BuffDamage : BuffNumeric
 { 
     public override float ActuationNumericBuff(float field)
     {
-        var plusDamage = field * up;
-
-        plusDamage += plusDamage * ((float)buffInfo.lvl);
+        var plusDamage = field * (up + (0.1f * buffInfo.lvl));
 
         return plusDamage;
     }

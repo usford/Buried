@@ -15,6 +15,7 @@ public class Upgrade : MonoBehaviour
     public TypeUpgrade type;
     public GameObject levelsUpgrade; //Уровни улучшения (визуал)
     public GameObject lvlUpgrade; //Улучшение
+    public Text descriptionUpgrade;
 
     
 
@@ -68,6 +69,7 @@ public class Upgrade : MonoBehaviour
                 nameUpgrade.text = item.nameSpell;
                 priceLvl = item.priceLvl;
                 textUpgrade.text = $"Улучшить {priceLvl}";
+                descriptionUpgrade.text = item.descriptionUpgrade;
                 lvl = item.lvl;
                 maxLvl = item.maxLvl;
                 break;
@@ -80,6 +82,7 @@ public class Upgrade : MonoBehaviour
                 nameUpgrade.text = item.nameBuff;
                 priceLvl = item.priceLvl;
                 textUpgrade.text = $"Улучшить {priceLvl}";
+                descriptionUpgrade.text = item.descriptionUpgrade;
                 lvl = item.lvl;
                 maxLvl = item.maxLvl;
                 break;
@@ -113,6 +116,12 @@ public class Upgrade : MonoBehaviour
             scale.y = 1; 
             scale.z = 1;
             _lvlUpgrade.transform.localScale = scale;
+        }
+
+        if (lvl == maxLvl)
+        {
+            descriptionUpgrade.text = "Максимум улучшений";
+            textUpgrade.text = $"Максимальная прокачка";
         }
     }
 

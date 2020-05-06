@@ -25,10 +25,10 @@ public class SpellTarget : Spell
     {
         spellTargetInfo = spellInfo.spell as SpellTargetInfo;
 
-        var plusDamage = 20 * spellInfo.lvl;
+        var plusDamage = spellTargetInfo.damage * (spellInfo.lvl * 0.1f);
         damage = spellTargetInfo.damage + plusDamage;
 
-        var plusSpeed = 0.3f * spellInfo.lvl;
+        var plusSpeed = spellTargetInfo.spellSpeed * (spellInfo.lvl * 0.1f);
         spellSpeed = spellTargetInfo.spellSpeed + plusSpeed;
     }
 

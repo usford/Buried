@@ -6,9 +6,7 @@ public class BuffGold : BuffNumeric
 {
     public override float ActuationNumericBuff(float field)
     {
-        var plusGold = field * up + (buffInfo.lvl / 2);
-        
-        plusGold += plusGold * ((float)buffInfo.lvl / 4);
+        var plusGold = field * (up + (0.5f * buffInfo.lvl));      
 
         return plusGold;
     }
