@@ -16,6 +16,7 @@ public class Shop : MonoBehaviour
 
     private void Update() 
     {
+        if (player == null) return;
         if ((Vector3.Distance(transform.position, player.transform.position) <= 1.0f))
         {
             text.SetActive(true);

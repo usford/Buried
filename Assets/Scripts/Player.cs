@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //Интерфейс персонажа
+    public PlayerInfo playerInfo; //Информация о персонаже
     public float maxSpeed = 2f; //Скорость
 
     public float MaxSpeed
@@ -43,13 +44,13 @@ public class Player : MonoBehaviour
     {
         get
         {
-            return amountGold;
+            return playerInfo.amountGold;
         }
 
         set
         {
-            amountGold = value;
-            ui.ChangeTextAmountGold(amountGold);
+            playerInfo.amountGold = value;
+            ui.ChangeTextAmountGold(playerInfo.amountGold);
         }
     }
     public float invulnerability = 1.0f; //Временная неуязвимость после получения урона
@@ -318,6 +319,9 @@ public class Player : MonoBehaviour
     private void Death()
     {
         ui.ShowTextDeath();
+
+        //-10% золота при смерти
+        AmountGold = (int)(playerInfo.amountGold * 0.901f);
         Destroy(gameObject);
     }
 

@@ -16,6 +16,7 @@ public class Upgrade : MonoBehaviour
     public GameObject levelsUpgrade; //Уровни улучшения (визуал)
     public GameObject lvlUpgrade; //Улучшение
     public Text descriptionUpgrade;
+    private Player player;
 
     
 
@@ -27,35 +28,39 @@ public class Upgrade : MonoBehaviour
     //Улучшить способности
     public void Upgraded()
     {
-        switch(type)
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        if (player.AmountGold - priceLvl >= 0)
         {
-            case TypeUpgrade.Spell:
+            switch(type)
             {
-                var item = itemUpgrade as SpellInfo;
-                if (item.lvl + 1 <= maxLvl)
+                case TypeUpgrade.Spell:
                 {
-                    item.lvl += 1;
-                    lvl = item.lvl;
-                    CheckLvlUpgrade();
+                    var item = itemUpgrade as SpellInfo;
+                    if (item.lvl + 1 <= maxLvl)
+                    {
+                        item.lvl += 1;
+                        lvl = item.lvl;
+                        CheckLvlUpgrade();
+                    }
+                    break;
                 }
-                break;
-            }
 
-            case TypeUpgrade.Buff:
-            {
-                var item = itemUpgrade as BuffInfo;
-                if (item.lvl + 1 <= maxLvl)
+                case TypeUpgrade.Buff:
                 {
-                    item.lvl += 1;
-                    lvl = item.lvl;
-                    CheckLvlUpgrade();
+                    var item = itemUpgrade as BuffInfo;
+                    if (item.lvl + 1 <= maxLvl)
+                    {
+                        item.lvl += 1;
+                        lvl = item.lvl;
+                        CheckLvlUpgrade();
+                    }
+                    break;
                 }
-                break;
-            }
+            }   
+
+            player.AmountGold -= priceLvl;
         }
-       
-
-        
     }
 
     public void Refresh()

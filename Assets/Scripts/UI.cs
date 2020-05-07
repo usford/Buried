@@ -34,6 +34,7 @@ public class UI : MonoBehaviour
         //Начальные значения
         ChangeHealth(player.CurrentHp);
         ChangeSpells(player.spells);
+        ChangeTextAmountGold(player.playerInfo.amountGold);
     }
 
     //Изменение способностей

@@ -72,6 +72,7 @@
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffNumericInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffTargetInfo.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObjects\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\SpellAuraInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\SpellInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\SpellTargetInfo.cs" />
