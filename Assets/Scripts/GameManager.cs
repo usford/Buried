@@ -62,6 +62,12 @@ public class GameManager : MonoBehaviour
                 buff.lvl = 0;
             });
         }
+
+        //Открытие главного меню
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ui.menuPanel.SetActive(!ui.menuPanel.activeSelf);
+        }
     }
 
     void InitGame()

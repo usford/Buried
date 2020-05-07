@@ -16,6 +16,8 @@ public class UI : MonoBehaviour
     public GameObject buffs; //Бафы персонажа
     [HideInInspector]
     public GameObject shopPanel; //Магазин
+    [HideInInspector]
+    public GameObject menuPanel; //Меню
 
     private void Start()
     {
@@ -30,6 +32,8 @@ public class UI : MonoBehaviour
         buffs = GameObject.Find("Buffs");
         shopPanel = GameObject.Find("Shop_panel");
         shopPanel.SetActive(false);
+        menuPanel = GameObject.Find("Panel_menu");
+        menuPanel.SetActive(false);
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
