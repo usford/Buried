@@ -60,23 +60,37 @@ public class BoardManager : MonoBehaviour
                 newChest.GetComponent<Target>().posY = posY;
             }else
             {
-                int minEnemy = newRoom.GetComponent<Room>().minEnemy;
-                int maxEnemy = newRoom.GetComponent<Room>().maxEnemy + 1;
-
-                int count = Random.Range(minEnemy, maxEnemy);
-                List<GameObject> enemies = new List<GameObject>();
-                enemies = newRoom.GetComponent<Room>().enemies;
-
-                List<Vector2> spawnedPositions = new List<Vector2>();
-                spawnedPositions = newRoom.GetComponent<Room>().spawnedPositions;
-
-                for (int i = 0; i < count; i++)
+                bool isEnemy = false;
+                foreach (Transform child in newRoom.GetComponentsInChildren<Transform>())
                 {
-                    int randomSpawn = Random.Range(0, spawnedPositions.Count); 
-                    GameObject newEnemy = Instantiate(enemies[enemies.Count - 1], spawnedPositions[randomSpawn], Quaternion.identity);
-                    newEnemy.transform.SetParent(newRoom.transform);
-                    spawnedPositions.Remove(spawnedPositions[randomSpawn]);
+                    if(child.tag == "Enemy")
+                    {
+                        isEnemy = true;
+                    }
+                    
                 }
+
+                if (!isEnemy)
+                {
+                    int minEnemy = newRoom.GetComponent<Room>().minEnemy;
+                    int maxEnemy = newRoom.GetComponent<Room>().maxEnemy + 1;
+
+                    int count = Random.Range(minEnemy, maxEnemy);
+                    List<GameObject> enemies = new List<GameObject>();
+                    enemies = newRoom.GetComponent<Room>().enemies;
+
+                    List<Vector2> spawnedPositions = new List<Vector2>();
+                    spawnedPositions = newRoom.GetComponent<Room>().spawnedPositions;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        int randomSpawn = Random.Range(0, spawnedPositions.Count); 
+                        GameObject newEnemy = Instantiate(enemies[enemies.Count - 1], spawnedPositions[randomSpawn], Quaternion.identity);
+                        newEnemy.transform.SetParent(newRoom.transform);
+                        spawnedPositions.Remove(spawnedPositions[randomSpawn]);
+                    }
+                }
+                
                 newRoom.AddComponent<Target>().type = "enemies";
                 newRoom.GetComponent<Target>().posX = posX;
                 newRoom.GetComponent<Target>().posY = posY;

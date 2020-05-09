@@ -15,8 +15,10 @@ public class Enemy : MonoBehaviour
     public int maxDropGold = 1; //Максимальное кол-во золота, которое может выпасть с моба
     public int minDropGold = 0; // Минимальное кол-во золота, которое может выпасть с моба
     public float chanceDropGold = 0.5f; //Шанс выпадения золота с монстра
+    [HideInInspector]
     public GameManager gameManager;
     private Text textDamage; //Текст урона
+    public bool dropGold = true;
 
     private void Start() 
     {
@@ -90,7 +92,7 @@ public class Enemy : MonoBehaviour
     }
 
     //Монстр наносит удар
-    private void Hit()
+    public void Hit()
     {   
         Vector2 movement = player.GetComponent<Transform>().position - transform.position ;
         player.GetComponent<Rigidbody2D>().AddForce(movement * powerForce, ForceMode2D.Impulse);
@@ -102,7 +104,7 @@ public class Enemy : MonoBehaviour
     {
         float random = Random.Range(0.0f, chanceDropGold + 0.1f);
 
-        if (random <= chanceDropGold)
+        if (random <= chanceDropGold && dropGold)
             DropGold();
 
         Destroy(gameObject);

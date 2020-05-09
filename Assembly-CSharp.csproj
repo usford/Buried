@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Chest.cs" />
      <Compile Include="Assets\Scripts\DeathVideo.cs" />
      <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemies\EnemyBeholder\EnemyBeholder.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemySlime\EnemySlime.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemySlime\Fart.cs" />
      <Compile Include="Assets\Scripts\Exit.cs" />
@@ -93,6 +94,7 @@
      <Compile Include="Assets\Scripts\Spikes.cs" />
      <Compile Include="Assets\Scripts\Target.cs" />
      <Compile Include="Assets\Scripts\UI.cs" />
+     <None Include="Assets\Sprites\Craftpix hell monster pixel art game sprite pack\License.txt" />
      <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font2\license.txt" />
      <None Include="Assets\Sprites\Simple Pixel UI\fonts\Font1\readme.txt" />
      <None Include="Assets\Sprites\Craftpix potion icons pixel art\License.txt" />

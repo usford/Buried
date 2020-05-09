@@ -49,16 +49,17 @@ public class EnemySlime : Enemy
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.transform == transform) continue;
-            if (hit.collider.tag == "OuterWall" || hit.collider.tag == "Exit")
+            if (hit.collider.tag == "OuterWall" || hit.collider.tag == "Exit" || hit.collider.tag == "Abyss" || hit.collider.tag == "Enemy")
             {
                 if (hit.collider.GetComponent<SpriteRenderer>().sortingLayerName == "Wall" 
                 || hit.collider.GetComponent<SpriteRenderer>().sortingLayerName == "Exit"
-                || hit.collider.tag == "Enemy")
+                )
                 {
                     //Debug.Log("СТЕНА СТЕНА СТЕНА");
 
                     changeDir();
                 }
+                changeDir();
             }
         }
     }
@@ -83,42 +84,42 @@ public class EnemySlime : Enemy
     {
         int random;
         switch(direction.ToString())
-                {
-                    //Шёл вправо
-                    case "(1.0, 0.0, 0.0)":
-                    {
-                        random = Random.Range(0, 2);
+        {
+            //Шёл вправо
+            case "(1.0, 0.0, 0.0)":
+            {
+                random = Random.Range(0, 2);
 
-                        direction = (random == 0) ? transform.up : -transform.up;
-                        break;
-                    }
-                    //Шёл влево
-                    case "(-1.0, 0.0, 0.0)":
-                    {
-                        random = Random.Range(0, 2);
+                direction = (random == 0) ? transform.up : -transform.up;
+                break;
+            }
+            //Шёл влево
+            case "(-1.0, 0.0, 0.0)":
+            {
+                random = Random.Range(0, 2);
 
-                        direction = (random == 0) ? transform.up : -transform.up;
-                        break;
-                    }
-                    //Шёл вверх
-                    case "(0.0, 1.0, 0.0)":
-                    {
-                        random = Random.Range(0, 2);
+                direction = (random == 0) ? transform.up : -transform.up;
+                break;
+            }
+            //Шёл вверх
+            case "(0.0, 1.0, 0.0)":
+            {
+                random = Random.Range(0, 2);
 
-                        direction = (random == 0) ? transform.right : -transform.right;
-                        GetComponent<SpriteRenderer>().flipX = (direction == transform.right) ? false : true;
-                        break;
-                    }
-                    //Шёл вниз
-                    case "(0.0, -1.0, 0.0)":
-                    {
-                        random = Random.Range(0, 2);
+                direction = (random == 0) ? transform.right : -transform.right;
+                GetComponent<SpriteRenderer>().flipX = (direction == transform.right) ? false : true;
+                break;
+            }
+            //Шёл вниз
+            case "(0.0, -1.0, 0.0)":
+            {
+                random = Random.Range(0, 2);
 
-                        direction = (random == 0) ? transform.right : -transform.right;
+                direction = (random == 0) ? transform.right : -transform.right;
 
-                        GetComponent<SpriteRenderer>().flipX = (direction == transform.right) ? false : true;
-                        break;
-                    }
-                }
+                GetComponent<SpriteRenderer>().flipX = (direction == transform.right) ? false : true;
+                break;
+            }
+        }
     }
 }
