@@ -47,6 +47,8 @@ public class ShopPanel : MonoBehaviour
         localPosition.y = 0.0f;
         contentBuffs.GetComponent<RectTransform>().localPosition = localPosition;
 
+        gameManager.allSpells.Sort((a, b) => b.isFound.CompareTo(a.isFound));
+
         for (int i = 0; i < gameManager.allSpells.Count; i++)
         {
             GameObject spell = Instantiate(upgrade);
@@ -54,6 +56,7 @@ public class ShopPanel : MonoBehaviour
             spell.GetComponent<Upgrade>().type = Upgrade.TypeUpgrade.Spell;
 
             spell.GetComponent<Upgrade>().itemUpgrade = gameManager.allSpells[i];
+            if (gameManager.allSpells[i].isFound) spell.GetComponent<Upgrade>().locked.SetActive(false);
 
             spell.transform.SetParent(contentSpells.transform);
 
@@ -87,6 +90,8 @@ public class ShopPanel : MonoBehaviour
         localPosition.y = 0.0f;
         contentBuffs.GetComponent<RectTransform>().localPosition = localPosition;
 
+        gameManager.allBuffs.Sort((a, b) => b.isFound.CompareTo(a.isFound));
+
         for (int i = 0; i < gameManager.allBuffs.Count; i++)
         {
             GameObject buff = Instantiate(upgrade);
@@ -94,6 +99,8 @@ public class ShopPanel : MonoBehaviour
             buff.GetComponent<Upgrade>().type = Upgrade.TypeUpgrade.Buff;
 
             buff.GetComponent<Upgrade>().itemUpgrade = gameManager.allBuffs[i];
+
+            if (gameManager.allBuffs[i].isFound) buff.GetComponent<Upgrade>().locked.SetActive(false);
 
             buff.transform.SetParent(contentBuffs.transform);
 

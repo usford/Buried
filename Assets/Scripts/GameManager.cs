@@ -63,6 +63,20 @@ public class GameManager : MonoBehaviour
             });
         }
 
+        //Сброс всех найденных способностей/бафов
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            allSpells.ForEach((spell) =>
+            {
+                spell.isFound = false;
+            });
+
+            allBuffs.ForEach((buff) =>
+            {
+                buff.isFound = false;
+            });
+        }
+
         //Открытие главного меню
         if (Input.GetKeyDown(KeyCode.Escape))
         {

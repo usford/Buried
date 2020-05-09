@@ -17,6 +17,7 @@ public class Upgrade : MonoBehaviour
     public GameObject lvlUpgrade; //Улучшение
     public Text descriptionUpgrade;
     private Player player;
+    public GameObject locked; //Закрыта ли способности
 
     
 

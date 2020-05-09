@@ -23,7 +23,8 @@ public class SpellBook : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 List<GameObject> list = player.Spells;
-                list.Add(spell);
+                spell.GetComponent<Spell>().spellInfo.isFound = true;
+                list.Add(spell);    
                 player.Spells = list;
                 Destroy(gameObject);
             }

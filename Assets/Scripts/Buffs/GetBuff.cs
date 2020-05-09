@@ -50,6 +50,7 @@ public class GetBuff : MonoBehaviour
         if (!isBuff)
         {
             List<GameObject> list = player.buffs;
+            buff.GetComponent<Buff>().buffInfo.isFound = true;
             list.Add(buff);
             player.Buffs = list;
         }else
