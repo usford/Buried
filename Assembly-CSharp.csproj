@@ -64,7 +64,12 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Gold.cs" />
      <Compile Include="Assets\Scripts\Loader.cs" />
+     <Compile Include="Assets\Scripts\Menu\ActionInfo.cs" />
+     <Compile Include="Assets\Scripts\Menu\Bestiary.cs" />
+     <Compile Include="Assets\Scripts\Menu\InfoHelper.cs" />
      <Compile Include="Assets\Scripts\Menu\Menu.cs" />
+     <Compile Include="Assets\Scripts\Menu\PanelDescription.cs" />
+     <Compile Include="Assets\Scripts\Menu\PanelInfo.cs" />
      <Compile Include="Assets\Scripts\Panel_menu.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PotionHealth.cs" />
@@ -75,6 +80,7 @@
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffNumericInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\BuffTargetInfo.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObjects\EnemyInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\SpellAuraInfo.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\SpellInfo.cs" />

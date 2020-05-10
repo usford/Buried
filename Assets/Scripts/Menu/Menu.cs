@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public GameObject btnContinueGame;
+    public GameObject panelBestiary;
     private bool isGameStarted = false;
     private void Start() 
     {
@@ -22,6 +23,11 @@ public class Menu : MonoBehaviour
     public void NewGame()
     {
         SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+    }
+
+    public void Bestiary()
+    {
+        panelBestiary.SetActive(true);
     }
 
     public void Exit()

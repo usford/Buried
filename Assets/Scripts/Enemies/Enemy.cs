@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    [HideInInspector]
     public float maxHp = 100.0f; //Максимальное здоровье
+    [HideInInspector]
     public float currentHp; //Текущее здоровье
+    [HideInInspector]
     public float damage = 20.0f; //Урон
     public float powerForce = 10.0f; //Сила толчка
     public float maxSpeed = 2.0f; //Максимальная скорость врага
     public float currentSpeed = 2.0f; //Текущая скорость врага
+    [HideInInspector]
     public Player player;
     public int maxDropGold = 1; //Максимальное кол-во золота, которое может выпасть с моба
     public int minDropGold = 0; // Минимальное кол-во золота, которое может выпасть с моба
@@ -20,8 +24,12 @@ public class Enemy : MonoBehaviour
     private Text textDamage; //Текст урона
     public bool dropGold = true;
 
+    public EnemyInfo enemyInfo;
+
     private void Start() 
     {
+        maxHp = enemyInfo.hp;
+        damage = enemyInfo.damage;
         currentHp = maxHp;
         currentSpeed = maxSpeed;
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
