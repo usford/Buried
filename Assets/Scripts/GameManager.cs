@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public List<SpellInfo> allSpells;
     public List<BuffInfo> allBuffs;
+    public PlayerStatistics playerStatistics;
     
 
     private int level = 1;

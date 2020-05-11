@@ -10,9 +10,11 @@ public class Chest : MonoBehaviour
     public GameObject text;
     public Sprite openChest;
     public bool stateChest = false;
+    private GameManager gameManager;
     private void Start() 
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     private void Update() 
@@ -21,12 +23,13 @@ public class Chest : MonoBehaviour
         {
             text.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && !stateChest)
             {
                 GetComponent<Animator>().enabled = false;
                 text.GetComponent<Text>().text = "";
                 GetComponent<SpriteRenderer>().sprite = openChest;
                 stateChest = true;
+                gameManager.playerStatistics.openChests += 1;
             }
         }else
         {

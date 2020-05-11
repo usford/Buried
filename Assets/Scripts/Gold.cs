@@ -30,10 +30,12 @@ public class Gold : MonoBehaviour
     }
     public Sprite[] goldSprites; //Все спрайты с золотом
     private Player player;
+    private GameManager gameManager;
 
     private void Start() 
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         SwitchSprite(amount);
     }
 
@@ -71,6 +73,7 @@ public class Gold : MonoBehaviour
         if (other.tag == "Player")
         {
             player.AmountGold = player.amountGold + amount;
+            gameManager.playerStatistics.goldCollected += amount;
             Destroy(gameObject);
         }
     }

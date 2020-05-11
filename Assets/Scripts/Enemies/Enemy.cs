@@ -110,6 +110,7 @@ public class Enemy : MonoBehaviour
     //Смерть
     public virtual void Death()
     {
+        gameManager.playerStatistics.diedEnemy += 1;
         float random = Random.Range(0.0f, chanceDropGold + 0.1f);
 
         if (random <= chanceDropGold && dropGold)

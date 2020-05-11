@@ -85,6 +85,7 @@ public class Target : MonoBehaviour
     //Выполнение цели
     private void targetCompleted()
     {
+        gameManager.playerStatistics.clearRooms += 1;
         gameManager.ui.ShowTextRoomCompleted(true);
         gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().color = Color.green;
         gameManager.boardScript.ChangeExit(gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().posX, gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().posY);
