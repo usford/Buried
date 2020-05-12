@@ -11,6 +11,8 @@ public class Chest : MonoBehaviour
     public Sprite openChest;
     public bool stateChest = false;
     private GameManager gameManager;
+    public List<GameObject> awardsSpells;
+    public List<GameObject> awardsBuffs; 
     private void Start() 
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -30,10 +32,31 @@ public class Chest : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = openChest;
                 stateChest = true;
                 gameManager.playerStatistics.openChests += 1;
+                OpenChest();
             }
         }else
         {
             text.SetActive(false);
+        }
+    }
+
+    private void OpenChest()
+    {
+        int randomCount = Random.Range(1, 3);
+        for (int i = 0; i < randomCount; i++)
+        {
+            float randomType = Random.Range(0.0f, 1.1f);
+            if (randomType <= 0.3f)
+            {
+                int randomAward = Random.Range(0, awardsSpells.Count);
+                Instantiate(awardsSpells[randomAward], transform.position, Quaternion.identity);
+                awardsSpells.Remove(awardsSpells[randomAward]);
+            }else
+            {
+                int randomAward = Random.Range(0, awardsBuffs.Count);
+                Instantiate(awardsBuffs[randomAward], transform.position, Quaternion.identity);
+                awardsBuffs.Remove(awardsBuffs[randomAward]);
+            }
         }
     }
 }

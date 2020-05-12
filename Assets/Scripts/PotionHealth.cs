@@ -14,13 +14,11 @@ public class PotionHealth : MonoBehaviour
     }
     private void Update() 
     {
-        //Rotation();
-        Debug.Log(Vector3.Distance(transform.position, player.transform.position));
         if ((Vector3.Distance(transform.position, player.transform.position) <= 0.8f))
         {
             text.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && (player.maxHp - player.currentHp != 0))
             {
                 player.CurrentHp += hpRecovery;
                 Destroy(gameObject);

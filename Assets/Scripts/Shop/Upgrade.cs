@@ -31,7 +31,7 @@ public class Upgrade : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
-        if (player.AmountGold - priceLvl >= 0)
+        if (player.AmountGold - (priceLvl * (lvl + 1)) >= 0)
         {
             switch(type)
             {
@@ -43,6 +43,9 @@ public class Upgrade : MonoBehaviour
                         item.lvl += 1;
                         lvl = item.lvl;
                         CheckLvlUpgrade();
+                        #if UNITY_EDITOR
+                        UnityEditor.EditorUtility.SetDirty(item); 
+                        #endif
                     }
                     break;
                 }
@@ -55,12 +58,16 @@ public class Upgrade : MonoBehaviour
                         item.lvl += 1;
                         lvl = item.lvl;
                         CheckLvlUpgrade();
+                        #if UNITY_EDITOR
+                        UnityEditor.EditorUtility.SetDirty(item); 
+                        #endif
                     }
                     break;
                 }
             }   
 
-            player.AmountGold -= priceLvl;
+            player.AmountGold -= priceLvl * (lvl);
+            Refresh();
         }
     }
 
@@ -74,9 +81,9 @@ public class Upgrade : MonoBehaviour
                 icon.sprite = item.icon;
                 nameUpgrade.text = item.nameSpell;
                 priceLvl = item.priceLvl;
-                textUpgrade.text = $"Улучшить {priceLvl}";
                 descriptionUpgrade.text = item.descriptionUpgrade;
                 lvl = item.lvl;
+                textUpgrade.text = $"Улучшить {priceLvl * (lvl + 1)}";
                 maxLvl = item.maxLvl;
                 break;
             }
@@ -87,9 +94,9 @@ public class Upgrade : MonoBehaviour
                 icon.sprite = item.icon;
                 nameUpgrade.text = item.nameBuff;
                 priceLvl = item.priceLvl;
-                textUpgrade.text = $"Улучшить {priceLvl}";
                 descriptionUpgrade.text = item.descriptionUpgrade;
                 lvl = item.lvl;
+                textUpgrade.text = $"Улучшить {priceLvl * (lvl + 1)}";
                 maxLvl = item.maxLvl;
                 break;
             }

@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
 
     private void Update() 
     {
+        #if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(playerStatistics); 
+        #endif
         //Рестарт игры
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -70,11 +73,17 @@ public class GameManager : MonoBehaviour
             allSpells.ForEach((spell) =>
             {
                 spell.isFound = false;
+                #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(spell); 
+                #endif
             });
 
             allBuffs.ForEach((buff) =>
             {
                 buff.isFound = false;
+                #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(buff); 
+                #endif
             });
         }
 

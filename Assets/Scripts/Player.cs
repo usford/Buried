@@ -138,6 +138,9 @@ public class Player : MonoBehaviour
     }
 
     private void Update() {
+        #if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(playerInfo); 
+        #endif
         RotateMoution();
     }
 

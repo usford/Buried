@@ -18,6 +18,7 @@ public class UI : MonoBehaviour
     public GameObject shopPanel; //Магазин
     [HideInInspector]
     public GameObject menuPanel; //Меню
+    public GameObject imageBag;
 
     private void Start()
     {
@@ -34,6 +35,7 @@ public class UI : MonoBehaviour
         shopPanel.SetActive(false);
         menuPanel = GameObject.Find("Panel_menu");
         menuPanel.SetActive(false);
+        imageBag = GameObject.Find("Image_bag");
 
         //Начальные значения
         ChangeHealth(player.CurrentHp);
@@ -96,6 +98,17 @@ public class UI : MonoBehaviour
     public void ChangeTextAmountGold(int amountGold)
     {
         textAmountGold.text = amountGold.ToString();
+
+        if (amountGold <= 300)
+        {
+            imageBag.GetComponent<Image>().sprite = imageBag.GetComponent<BagUI>().spriteBags[0];
+        }else if (amountGold > 300 && amountGold <= 700)
+        {
+            imageBag.GetComponent<Image>().sprite = imageBag.GetComponent<BagUI>().spriteBags[1];
+        }else if (amountGold > 700)
+        {
+            imageBag.GetComponent<Image>().sprite = imageBag.GetComponent<BagUI>().spriteBags[2];
+        }
     }
 
     //Пока текста о том, что комната зачищена

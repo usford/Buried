@@ -24,6 +24,9 @@ public class SpellBook : MonoBehaviour
             {
                 List<GameObject> list = player.Spells;
                 spell.GetComponent<Spell>().spellInfo.isFound = true;
+                #if UNITY_EDITOR
+                UnityEditor.EditorUtility.SetDirty(spell.GetComponent<Spell>().spellInfo); 
+                #endif
                 list.Add(spell);    
                 player.Spells = list;
                 Destroy(gameObject);

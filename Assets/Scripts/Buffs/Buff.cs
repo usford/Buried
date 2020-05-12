@@ -70,12 +70,14 @@ public class Buff : MonoBehaviour
     }
 
     //Обновление бафа
-    public void RefreshBuff()
+    public bool RefreshBuff()
     {
         //StopCoroutine(coroutine);
         //StartCoroutine(coroutine);
+        if (timer == null) return false;
         count = 0;
         timer.fillAmount = 0;
+        return true;
     }
 
     public enum UniqueNameBuff

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 [CreateAssetMenu(fileName = "PlayerStatistics", menuName = "Buried/PlayerStatistics", order = 0)]
 public class PlayerStatistics : ScriptableObject
 {

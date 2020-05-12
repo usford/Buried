@@ -24,8 +24,6 @@ public class GetBuff : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 CheckBuff();
-                
-                Destroy(gameObject);
             }
         }else
         {
@@ -38,6 +36,7 @@ public class GetBuff : MonoBehaviour
     {
         bool isBuff = false;
         string nameBuff = "";
+        bool check = true;
         player.buffs.ForEach((_buff) => 
         {
             if (buff.GetComponent<Buff>().buffInfo.nameBuff == _buff.GetComponent<Buff>().buffInfo.nameBuff)
@@ -51,6 +50,9 @@ public class GetBuff : MonoBehaviour
         {
             List<GameObject> list = player.buffs;
             buff.GetComponent<Buff>().buffInfo.isFound = true;
+            #if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(buff.GetComponent<Buff>().buffInfo); 
+            #endif
             list.Add(buff);
             player.Buffs = list;
         }else
@@ -62,9 +64,11 @@ public class GetBuff : MonoBehaviour
             {
                 if (child.GetComponent<Buff>().buffInfo.nameBuff == nameBuff)
                 {
-                    child.GetComponent<Buff>().RefreshBuff();
+                    check = child.GetComponent<Buff>().RefreshBuff();
                 }
             }
         }
+
+        if (check) Destroy(gameObject);;
     }
 }

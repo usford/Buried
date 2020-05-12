@@ -44,7 +44,8 @@
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
-  <ItemGroup>     <Compile Include="Assets\Scripts\BoardManager.cs" />
+  <ItemGroup>     <Compile Include="Assets\Scripts\BagUI.cs" />
+     <Compile Include="Assets\Scripts\BoardManager.cs" />
      <Compile Include="Assets\Scripts\Buffs\Buff.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffDamage.cs" />
      <Compile Include="Assets\Scripts\Buffs\BuffFreezing.cs" />
