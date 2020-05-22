@@ -69,7 +69,7 @@ public class Target : MonoBehaviour
 
         float random = Random.Range(0.0f, 1.1f);
 
-        if (random <= 0.3f)
+        if (random <= 0.4f)
         {
             GameObject newChest = Instantiate(Resources.Load<GameObject>("Items/Chest1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
             newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);

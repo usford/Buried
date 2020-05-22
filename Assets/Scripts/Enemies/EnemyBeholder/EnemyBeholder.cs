@@ -68,10 +68,12 @@ public class EnemyBeholder : Enemy
     {
         isAttack = true;
         isAttackDelay = true;
-        attackRay.SetActive(true);
         animator.SetTrigger("attack");
+
         yield return new WaitForSeconds(0.5f);
-        
+
+        attackRay.SetActive(true);
+
         RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, attackDirection);
 
         foreach (RaycastHit2D hit in hits)
@@ -81,10 +83,12 @@ public class EnemyBeholder : Enemy
                 Hit();
             }
         }
-        yield return new WaitForSeconds(0.1f);
+
+        yield return new WaitForSeconds(0.5f);
         attackRay.SetActive(false);
         isAttack = false;
-        yield return new WaitForSeconds(0.4f);
+
+        yield return new WaitForSeconds(1f);
         isAttackDelay = false;
     }
 }

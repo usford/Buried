@@ -129,6 +129,7 @@ public class Enemy : MonoBehaviour
         newGold.transform.SetParent(gameManager.boardScript.currentRoom.transform);
     }
 
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
