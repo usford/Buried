@@ -11,6 +11,7 @@ public class Room : MonoBehaviour
     public Color color; //Цвет комнаты
     public int posX;
     public int posY;
+    public bool boosRoom = false;
     public bool passed = false;
     public List<GameObject> enemies; //Враги, которые могут заспавнится в этой комнате
     public bool spawnChest = false; //Может ли в этой комнате заспавниться сундук

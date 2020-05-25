@@ -144,7 +144,7 @@ public class UI : MonoBehaviour
 
     public void GetMiniMap(GameObject[,] rooms)
     {
-        PaintingAllRooms();
+        //PaintingAllRooms();
         int countY = 0;
 
         Transform rows = GameObject.Find("Mini_map").GetComponent<Transform>();
@@ -196,7 +196,7 @@ public class UI : MonoBehaviour
         miniMap[5,5].GetComponent<Image>().color = Color.white;
     }
 
-    //Закрашивание белым цветов текущую комнату
+    //Закрашивание белым цветом текущую комнату
     public void PaintingRoom(GameObject[,] rooms, int currentPosX, int currentPosY, int pastPosX, int pastPosY)
     {
         miniMap[pastPosX,pastPosY].GetComponent<Image>().color = rooms[pastPosX,pastPosY].GetComponent<Room>().color;

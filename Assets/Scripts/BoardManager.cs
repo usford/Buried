@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     private GameObject _player;
     public GameObject[,] rooms = new GameObject[100,100]; //Все комнаты
     public GameObject[] roomsSimple;
+    public GameObject[] roomsBoss;
     public GameObject roomSpawn;
     public GameObject roomShop;
     public GameObject roomChallenge;
@@ -162,12 +163,31 @@ public class BoardManager : MonoBehaviour
             Vector2Int position = vacantPlaces[Random.Range(0, vacantPlaces.Count)];
 
             //Debug.Log("x: " + position.x + "     y: " + position.y);
+            GameObject room = roomsSimple[Random.Range(0, roomsSimple.Length)];
 
-            RoomBuild(roomsSimple[Random.Range(0, roomsSimple.Length)], position.x, position.y, Color.red, true);
+            RoomBuild(room, position.x, position.y, room.GetComponent<Room>().color, true);
 
             x = position.x;
             y = position.y;
            
+           if (i + 1 == countRooms)
+           {
+                vacantPlaces.Clear();
+
+                if (x < 100 && rooms[x + 1, y] == null) vacantPlaces.Add(new Vector2Int(x + 1, y));
+                if (x > 0 && rooms[x - 1, y] == null) vacantPlaces.Add(new Vector2Int(x - 1, y));
+                if (y < 100 && rooms[x, y + 1] == null) vacantPlaces.Add(new Vector2Int(x, y + 1));
+                if (y > 0 && rooms[x, y - 1] == null) vacantPlaces.Add(new Vector2Int(x, y - 1));
+
+                position = vacantPlaces[Random.Range(0, vacantPlaces.Count)];
+
+                room = roomsBoss[0];
+
+                RoomBuild(room, position.x, position.y, room.GetComponent<Room>().color, true);
+
+                x = position.x;
+                y = position.y;
+           }
         }
     }
 
