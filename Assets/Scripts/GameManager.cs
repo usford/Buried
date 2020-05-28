@@ -12,9 +12,7 @@ public class GameManager : MonoBehaviour
     public List<SpellInfo> allSpells;
     public List<BuffInfo> allBuffs;
     public PlayerStatistics playerStatistics;
-    
-
-    private int level = 1;
+    public GameInfo gameInfo;
 
     void Awake()
     {
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
 
         boardScript = GetComponent<BoardManager>();
         ui = GetComponent<UI>();
-        InitGame();
+        InitGame(gameInfo.currentLevel);
     }
 
     private void Update() 
@@ -41,16 +39,11 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        //Проверка открытия комнаты
-        if (Input.GetKeyDown(KeyCode.E))
+        //Переход на следующий уровень
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            // if (!boardScript.currentRoom.GetComponent<Room>().passed)
-            // {
-            //     ui.ShowTextRoomCompleted();
-            //     boardScript.currentRoom.GetComponent<Room>().passed = true;
-            //     boardScript.currentRoom.GetComponent<Room>().color = Color.green;
-            //     boardScript.ChangeExit(boardScript.currentRoom.GetComponent<Room>().posX, boardScript.currentRoom.GetComponent<Room>().posY);
-            // }
+            gameInfo.currentLevel += 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         //Сброс всех улучшений
@@ -94,7 +87,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void InitGame()
+    public void InitGame(int level)
     {
         boardScript.SetupScene(level);
         ui.GetMiniMap(boardScript.rooms);

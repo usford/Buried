@@ -27,7 +27,7 @@ public class Chest : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E) && !stateChest)
             {
-                GetComponent<Animator>().enabled = false;
+                if (GetComponent<Animator>() != null) GetComponent<Animator>().enabled = false;
                 text.GetComponent<Text>().text = "";
                 GetComponent<SpriteRenderer>().sprite = openChest;
                 stateChest = true;

@@ -69,20 +69,29 @@ public class Target : MonoBehaviour
 
         float random = Random.Range(0.0f, 1.1f);
 
-        if (random <= 0.4f)
+        if (gameObject.GetComponent<Room>().boosRoom)
         {
-            GameObject newChest = Instantiate(Resources.Load<GameObject>("Items/Chest1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+            GameObject newChest = Instantiate(gameObject.GetComponent<Room>().chest, new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
             newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
-        }else if (random > 0.3f && random <= 0.5f)
-        {
-            GameObject newHealth= Instantiate(Resources.Load<GameObject>("Items/Potion_health"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
         }else
         {
-            GameObject newGold = Instantiate(Resources.Load<GameObject>("Items/Gold1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
-            int randomGold = Random.Range(5, 20);
-            newGold.GetComponent<Gold>().Amount += randomGold;
-            newGold.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
+            if (random <= 0.4f)
+            {
+                GameObject newChest = Instantiate(gameObject.GetComponent<Room>().chest, new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+                newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
+            }else if (random > 0.3f && random <= 0.5f)
+            {
+                GameObject newHealth= Instantiate(Resources.Load<GameObject>("Items/Potion_health"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+            }else
+            {
+                GameObject newGold = Instantiate(Resources.Load<GameObject>("Items/Gold1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+                int randomGold = Random.Range(5, 20);
+                newGold.GetComponent<Gold>().Amount += randomGold;
+                newGold.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
+            }
         }
+
+        
     }
     //Выполнение цели
     private void targetCompleted()

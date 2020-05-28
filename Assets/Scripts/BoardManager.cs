@@ -1,24 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class LevelRooms
+{
+    public List<GameObject> rooms = new List<GameObject>();
+}
 public class BoardManager : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject exit;
+    public GameObject exit; //Префаб выхода
 
-    public Sprite[] exitStates;
+    public Sprite[] exitStates; //Состояние выходов
     public GameObject player;
     private GameObject _player;
     public GameObject[,] rooms = new GameObject[100,100]; //Все комнаты
-    public GameObject[] roomsSimple;
+    
+    public List<LevelRooms> roomsSimple;
     public GameObject[] roomsBoss;
-    public GameObject roomSpawn;
-    public GameObject roomShop;
-    public GameObject roomChallenge;
+    public GameObject[] roomSpawn;
+    public GameObject[] roomShop;
+    public GameObject[] roomChallenge;
     public GameObject chest; //Сундук с сокровищами
     public GameObject currentRoom;
+    private int level = 1;
 
 
     //public Map currentRoom;
@@ -163,13 +171,14 @@ public class BoardManager : MonoBehaviour
             Vector2Int position = vacantPlaces[Random.Range(0, vacantPlaces.Count)];
 
             //Debug.Log("x: " + position.x + "     y: " + position.y);
-            GameObject room = roomsSimple[Random.Range(0, roomsSimple.Length)];
+            GameObject room = roomsSimple[level - 1].rooms[Random.Range(0, roomsSimple[level - 1].rooms.Count)];
 
             RoomBuild(room, position.x, position.y, room.GetComponent<Room>().color, true);
 
             x = position.x;
             y = position.y;
            
+           //Создание комнаты с боссом
            if (i + 1 == countRooms)
            {
                 vacantPlaces.Clear();
@@ -181,7 +190,7 @@ public class BoardManager : MonoBehaviour
 
                 position = vacantPlaces[Random.Range(0, vacantPlaces.Count)];
 
-                room = roomsBoss[0];
+                room = roomsBoss[level - 1];
 
                 RoomBuild(room, position.x, position.y, room.GetComponent<Room>().color, true);
 
@@ -315,40 +324,32 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
-    //Vector3 RandomPosition()
-    //{
-    //    int randomIndex = Random.Range(0, gridPositions.Count);
-    //    Vector3 randomPosition = gridPositions[randomIndex];
-    //    gridPositions.RemoveAt(randomIndex);
-    //    return randomPosition;
-    //}
-
-    //void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
-    //{
-    //    int objectCount = Random.Range(minimum, maximum + 1);
-
-    //    for (int i = 0; i < objectCount; i++)
-    //    {
-    //        Vector3 randomPosition = RandomPosition();
-    //        GameObject tileChoice = tileArray[Random.Range(0, tileArray.Length)];
-    //        Instantiate(tileChoice, randomPosition, Quaternion.identity);
-    //    }
-    //}
 
     //Загрузка сцены
-    public void SetupScene (int level)
+    public void SetupScene (int _level)
     {
+        level = _level;
         rooms = new GameObject[100, 100];
 
         if (_player != null) Destroy(_player);
 
         _player = Instantiate(player, new Vector3(5, 5, 0f), Quaternion.identity);
-        RoomBuild(roomSpawn, 5, 5, Color.yellow, false);
-        RoomBuild(roomShop, 4, 5, Color.yellow, false);
-        RoomBuild(roomChallenge, 5, 4, Color.yellow, false);
-        RoomBuilding(7);
+        RoomBuild(roomSpawn[_level - 1], 5, 5, Color.yellow, false);
+        RoomBuild(roomShop[_level - 1], 4, 5, Color.yellow, false);
+        RoomBuild(roomChallenge[_level - 1], 5, 4, Color.yellow, false);
+        try
+        {
+            RoomBuilding(7);
+        }catch (Exception)
+        {
+            Debug.Log("ОШИБКА ГЕНЕРАЦИИ КОМНАТ");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        
         RoomBuildExit();
         RoomRendering(5, 5, 4, 4);
+
+        //Debug.Log(level);
 
         currentRoom = rooms[5, 5];
 

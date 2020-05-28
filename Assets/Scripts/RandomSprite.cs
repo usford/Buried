@@ -5,24 +5,26 @@ using UnityEngine;
 public class RandomSprite : MonoBehaviour
 {
     private List<Sprite> sprites;
-    public Sprite sprite;
+    public bool isRandom = true;
     public SpriteType spriteType;
+    public string level = "RandomLevel1";
+    
 
     private void Start() 
     {
-        if (sprite == null)
+        if (isRandom)
         {   
             switch(spriteType)
             {
                 case SpriteType.floor:
                 {
-                    sprites = GameObject.Find("Random").GetComponent<RandomGenerate>().floorSprites;
+                    sprites = GameObject.Find(level).GetComponent<RandomGenerate>().floorSprites;
                     break;
                 }
 
                 case SpriteType.outerWall:
                 {
-                    sprites = GameObject.Find("Random").GetComponent<RandomGenerate>().outerWallSprites;
+                    sprites = GameObject.Find(level).GetComponent<RandomGenerate>().outerWallSprites;
                     break;
                 }
                 default: break;

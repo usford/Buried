@@ -19,6 +19,7 @@ public class Room : MonoBehaviour
     public int maxEnemy = 2; //Максимальное количество врагов в комнате
     public int minEnemy = 1; //Минимальное количество врагов в комнате
     public List<Vector2> spawnedPositions; //Где может что-либо заспавниться
+    public GameObject chest; //Сундук, который выпадет из комнаты
 
     private void Start()
     {
