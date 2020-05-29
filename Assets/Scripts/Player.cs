@@ -170,22 +170,11 @@ public class Player : MonoBehaviour
         if (check)
         {
              plusSpeed = ActivateNumericBuff(Buff.UniqueNameBuff.PlayerSpeed, maxSpeed);
-        }
-
-        
+        }  
        
         float currentSpeed =  maxSpeed + plusSpeed;
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * currentSpeed);
-        // if (type == "Horizontal")
-        // {
-        //     rb.velocity= new Vector2(currentSpeed * Input.GetAxis("Horizontal"), rb.velocity.y);
-        // }else if (type == "Vertical")
-        // {
-        //     rb.velocity= new Vector2(rb.velocity.x, Input.GetAxis("Vertical") * currentSpeed);
-        // }
-
-        
 
         if (type == "Horizontal")
         {

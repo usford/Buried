@@ -83,6 +83,7 @@ public class Target : MonoBehaviour
             }else if (random > 0.3f && random <= 0.5f)
             {
                 GameObject newHealth= Instantiate(Resources.Load<GameObject>("Items/Potion_health"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
+                newHealth.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
             }else
             {
                 GameObject newGold = Instantiate(Resources.Load<GameObject>("Items/Gold1"), new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
@@ -91,8 +92,6 @@ public class Target : MonoBehaviour
                 newGold.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
             }
         }
-
-        
     }
     //Выполнение цели
     private void targetCompleted()

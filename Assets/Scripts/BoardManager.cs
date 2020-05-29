@@ -178,7 +178,7 @@ public class BoardManager : MonoBehaviour
             x = position.x;
             y = position.y;
            
-           //Создание комнаты с боссом
+           //Создание последей комнаты
            if (i + 1 == countRooms)
            {
                 vacantPlaces.Clear();

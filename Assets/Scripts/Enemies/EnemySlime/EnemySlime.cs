@@ -40,7 +40,7 @@ public class EnemySlime : Enemy
     }
 
     
-    private void Move()
+    public override void Move()
     {
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * currentSpeed);
          

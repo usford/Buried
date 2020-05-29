@@ -22,7 +22,7 @@ public class EnemyOneEyed : Enemy
         Move();  
     }
 
-    private void Move()
+    public override void Move()
     {
         GetComponent<Rigidbody2D>().velocity = direction * currentSpeed;
     }

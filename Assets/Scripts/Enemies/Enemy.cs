@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour
         textDamage = GetComponentInChildren<Text>();
         rb = GetComponent<Rigidbody2D>();
     }
+    
 
     //Урон, полученный врагом
     public void ReceiveDamage(float damageTaken)
@@ -58,6 +59,11 @@ public class Enemy : MonoBehaviour
         StartCoroutine(TextDamageAnimation(damageTaken));
         
         StartCoroutine(DamageAnimation());  
+    }
+
+    public virtual void Move()
+    {
+        
     }
 
     private IEnumerator TextDamageAnimation(float damageTaken)
