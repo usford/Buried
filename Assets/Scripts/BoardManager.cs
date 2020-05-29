@@ -94,7 +94,7 @@ public class BoardManager : MonoBehaviour
                     for (int i = 0; i < count; i++)
                     {
                         int randomSpawn = Random.Range(0, spawnedPositions.Count); 
-                        GameObject newEnemy = Instantiate(enemies[enemies.Count - 1], spawnedPositions[randomSpawn], Quaternion.identity);
+                        GameObject newEnemy = Instantiate(enemies[Random.Range(0, enemies.Count)], spawnedPositions[randomSpawn], Quaternion.identity);
                         newEnemy.transform.SetParent(newRoom.transform);
                         spawnedPositions.Remove(spawnedPositions[randomSpawn]);
                     }

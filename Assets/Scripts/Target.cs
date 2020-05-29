@@ -73,6 +73,7 @@ public class Target : MonoBehaviour
         {
             GameObject newChest = Instantiate(gameObject.GetComponent<Room>().chest, new Vector3(centreColumns, centreRows, 0.0f), Quaternion.identity);
             newChest.transform.SetParent(gameManager.boardScript.rooms[posX, posY].transform);
+            gameManager.boardScript.rooms[posX, posY].GetComponent<Room>().nextLevel.SetActive(true);
         }else
         {
             if (random <= 0.4f)

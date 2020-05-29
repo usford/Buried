@@ -12,6 +12,7 @@ public class Room : MonoBehaviour
     public int posX;
     public int posY;
     public bool boosRoom = false;
+    public GameObject nextLevel; //Переход на следующий уровень
     public bool passed = false;
     public List<GameObject> enemies; //Враги, которые могут заспавнится в этой комнате
     public bool spawnChest = false; //Может ли в этой комнате заспавниться сундук

@@ -42,7 +42,7 @@ public class EnemyBeholder : Enemy
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider.transform == transform) continue;
-            if (hit.collider.tag == "OuterWall")
+            if (hit.collider.tag == "OuterWall" || hit.collider.tag == "Enemy")
             {
                 direction = (directionUp) ? -direction : direction;
                 directionUp = !directionUp;

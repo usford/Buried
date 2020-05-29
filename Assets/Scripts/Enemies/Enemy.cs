@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public float currentHp; //Текущее здоровье
     [HideInInspector]
-    public float damage = 20.0f; //Урон
+    public float damage = 1.0f; //Урон
     public float powerForce = 10.0f; //Сила толчка
     public float maxSpeed = 2.0f; //Максимальная скорость врага
     public float currentSpeed = 2.0f; //Текущая скорость врага
@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     public bool dropGold = true;
 
     public EnemyInfo enemyInfo;
+    [HideInInspector]
+    public Rigidbody2D rb;
 
     private void Start() 
     {
@@ -35,6 +37,7 @@ public class Enemy : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         textDamage = GetComponentInChildren<Text>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     //Урон, полученный врагом
@@ -130,7 +133,7 @@ public class Enemy : MonoBehaviour
     }
 
     
-    private void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {

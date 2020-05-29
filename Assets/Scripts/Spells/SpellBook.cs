@@ -16,7 +16,7 @@ public class SpellBook : MonoBehaviour
 
     private void Update() 
     {
-        if ((Vector3.Distance(transform.position, player.transform.position) <= 1f))
+        if (player != null && (Vector3.Distance(transform.position, player.transform.position) <= 1f))
         {
             text.SetActive(true);
 
